@@ -641,41 +641,67 @@ with tab_tools:
     col_am, col_av = st.columns(2)
     with col_am:
         st.markdown("#### Automax")
-        st.caption("Free — hybrid order network model")
-        st.write("Offers the platform at no cost in exchange for participation in their hybrid appraisal order network. Hybrid orders typically involve a reduced-scope inspection with the appraiser completing the desktop or hybrid valuation.")
+        st.caption("Free with hybrid network participation — or subscription without")
+        st.write("Automax offers the platform free in exchange for participation in their hybrid appraisal order network. If you prefer to use it without joining the network, a subscription option is available. Hybrid orders typically involve a reduced-scope inspection with the appraiser completing the desktop or hybrid valuation. Order acceptance is generally flexible.")
         st.markdown("""
 **Features include:**
-- Instant sketch generation
-- TOTAL data integration (UAD 2.6 now, 3.6 roadmap)
+- Instant sketch generation — built-in, similar to CubiCasa but instant in the report
 - MLS + public records + Zillow comp data
+- Comparable selection and report tools (similar functionality to Spark and TruTracts)
+- TOTAL data integration (UAD 2.6 now, 3.6 on active roadmap)
 - Cloud workfile storage — USPAP compliant
 - Opt-in data sharing network
 
-**Best for:** Appraisers who want to reduce software overhead and are open to hybrid assignments as part of their workflow.
+**Best for:** Appraisers who want to reduce software overhead and are open to hybrid assignments, or those who want an all-in-one platform and prefer to subscribe independently.
 
-**Verify before committing:** Current UAD 3.6 deployment status — confirm directly with Automax.
+**Note:** Automax's UAD 3.6 deployment is on their active roadmap — confirm current status directly with Automax before committing.
         """)
+        st.link_button("▶ Watch Demo — UAD 3.6 in Minutes (Storyboard EMP)", "https://www.bigmarker.com/communities/Storyboard-EMP/conferences")
 
     with col_av:
         st.markdown("#### Aivre")
-        st.caption("~$2,500/year — standalone subscription")
-        st.write("A standalone AI-assisted appraisal platform. Was an early mover on UAD 3.6 compliance. As of early 2026 did not include a sketch component — verify current feature set before evaluating, as this space moves quickly.")
+        st.caption("Currently free — subscription pricing coming")
+        st.write("Aivre was the first GSE-verified platform for UAD 3.6, verified by both Fannie Mae and Freddie Mac before any other vendor. The platform is currently free while in its launch phase — subscription pricing has been announced but not yet implemented. This is a limited window to try it at no cost.")
         st.markdown("""
 **Features include:**
-- UAD 3.6 compliant early
-- Purpose-built for the new URAR
-- No order network obligations
-- Full control — standalone tool
+- First GSE-verified UAD 3.6 platform (Fannie Mae + Freddie Mac verified)
+- MLS and public records integration — auto-populates property data
+- Comparable selection and analytics tools (similar functionality to Spark and TruTracts)
+- UAD-compliant language auto-formatting
+- Photo classification and AI-assisted data entry
+- Real-time UCDP compliance checking via the UAD Compliance API
+- Early testing shows 3+ hours saved per report and ~30% fewer revisions
+- No order network obligations — fully standalone
 
-**Best for:** Appraisers who want a UAD 3.6-native platform with no order network strings attached and are willing to pay the annual subscription.
+**Best for:** Appraisers who want the most UAD 3.6-native platform available and want to try it while it's still free.
 
-**Verify before committing:** Sketch capability — this remains a significant gap for UAD 3.6 field data collection. Confirm current status.
+**Note:** No sketch tool currently — verify current feature set as this space moves fast. Subscription pricing is coming — get in now while it's free.
         """)
+        st.link_button("▶ Watch Demo — Appraisal Update Podcast (3.3.26)", "https://www.youtube.com/@appraiserelearning")
+        st.link_button("▶ Watch Demo — Aivre Walkthrough Webinar", "https://www.bigmarker.com/Storyboard-EMP/live-webinar-transforming-appraisals-with-aivre-the-first-gse-verified-software-for-uad-3-6")
+
+    st.divider()
+    st.markdown("### Software demo videos — watch before you decide")
+    st.caption("These videos show real workflows in real software — the fastest way to evaluate before committing.")
+
+    demos = [
+        ("TOTAL by a la mode", "Live Demo: How to use UAD 3.6 within TOTAL (Storyboard EMP)", "https://blogs.alamode.com/live-demo-with-storyboard-emp-how-to-use-uad-3.6-within-total", "Storyboard EMP hosted this live demo showing the full UAD 3.6 workflow in TOTAL, the most widely used traditional platform. Good starting point if you're a current TOTAL user."),
+        ("Aivre", "The Appraisal Update Podcast — UAD 3.6 and AI: How Aivre Is Changing Appraisers' Workflows (3.3.26)", "https://www.youtube.com/@appraiserelearning", "Bryan Reynolds and Aivre CEO Jake Lew walk through the software live, including a screen-share demo. The most current look at Aivre's UAD 3.6 workflow."),
+        ("Aivre", "Aivre Appraisal Software Walkthrough Webinar — UAD 3.6, AI & Automation for Appraisers", "https://www.bigmarker.com/Storyboard-EMP/live-webinar-transforming-appraisals-with-aivre-the-first-gse-verified-software-for-uad-3-6", "Full platform walkthrough webinar hosted by Storyboard EMP. Covers data entry, photo classification, analytics, and compliance checking in detail."),
+        ("Automax", "Webinar: Copilot to the Future — UAD 3.6 in Minutes by Storyboard EMP", "https://www.bigmarker.com/communities/Storyboard-EMP/conferences", "Automax's UAD 3.6 demo webinar hosted by Storyboard EMP. Shows how Automax handles the full report workflow including sketch generation."),
+        ("SFREP / Appraise-It Pro", "Writing a UAD 3.6 Report in Appraise-It Pro", "https://www.sfrep.com/training/videos/", "SFREP walks through the UAD 3.6 dynamic URAR in their Appraise-It Pro software. Notable: SFREP was the first of the 'big four' platforms to obtain GSE verification. Free 6-month trial available."),
+        ("ACI", "UAD 3.6 and ACI Solutions — Hosted by NAN", "https://nan-amc.com/uad_3_6/", "Nationwide Appraisal Network hosted this webinar with ACI covering how their platform handles UAD 3.6 compliance, ordering, and delivery."),
+    ]
+
+    for software, title, url, desc in demos:
+        with st.expander(f"▶ {software} — {title}"):
+            st.write(desc)
+            st.link_button(f"Watch: {title}", url)
 
     st.divider()
     st.info("**A note for newer appraisers:** AI-assisted platforms speed up data collection and flag compliance issues, but they work best in the hands of someone who understands what the fields mean, why certain adjustments are made, and what USPAP requires. Learn the process first — the technology amplifies it, it doesn't replace it.")
 
-    st.caption("Source: Appraiser eLearning 2026 UAD 3.6 Bootcamp, Working RE, McKissock Learning, Fannie Mae Appraiser Update (Jan 2026).")
+    st.caption("Source: Appraiser eLearning 2026 UAD 3.6 Bootcamp, Storyboard EMP, Working RE, McKissock Learning, Fannie Mae Appraiser Update (Jan 2026), Aivre press release (Oct 2025).")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 9 — TRAINING RESOURCES
