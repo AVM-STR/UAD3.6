@@ -712,19 +712,22 @@ with tab_resources:
     st.markdown("The best UAD 3.6 resources — curated and organized so you don't have to hunt across multiple sites.")
 
     st.markdown("### 📋 Start here — free GSE resources")
-    gse_resources = [
-        ("Appendix F-1: URAR Reference Guide", "fanniemae.com/UAD", "The authoritative field-by-field reference for the new URAR. 375 pages — download the PDF and keep it searchable. If you have a question about a specific field, this is the answer. Worth printing the most-used sections."),
-        ("UAD Inspection and Reporting Tips", "fanniemae.com/UAD", "Published Oct 2025 by Fannie Mae and Freddie Mac. A concise job aid highlighting notable differences in information collected between UAD 2.6 and 3.6. Best quick-reference document for inspection prep."),
-        ("Sample URAR Scenarios (Appendix D)", "fanniemae.com/UAD", "Example completed reports showing what a UAD 3.6 URAR actually looks like for different property types. Essential for understanding what completed reports should contain."),
-        ("Fannie Mae UAD 3.6 Training Videos", "fanniemae.com/UAD", "Free video series from Fannie Mae covering the new URAR structure, dynamic form behavior, and key field requirements. Best starting point before attempting a 3.6 report."),
-        ("Freddie Mac UAD Resources", "sf.freddiemac.com/tools-learning/uniform-mortgage-data-program/uad", "Freddie Mac's equivalent resource hub — includes their policy bulletin (2025-7) and supplemental guidance. Some nuances differ from Fannie Mae policy."),
-        ("UAD 3.6 FAQ", "fanniemae.com/UAD", "Official FAQ from Fannie Mae and Freddie Mac answering the most common implementation questions. Updated periodically as new questions emerge."),
-        ("FCC Broadband Map", "broadbandmap.fcc.gov", "Required for verifying broadband availability at the subject property — new required field in UAD 3.6. Enter the subject address to get the official broadband availability data."),
+
+    gse_items = [
+        ("📄 Appendix F-1: URAR Reference Guide", "https://singlefamily.fanniemae.com/media/document/zip/appendix-f-1-urar-reference-guide", "The authoritative field-by-field reference for the new URAR. Download includes the PDF reference guide (375 pages) AND the Excel field mapping file. If you have a question about a specific field, this is the answer. Download it, keep it searchable.", "Fannie Mae — ZIP download (PDF + Excel)"),
+        ("📄 UAD Inspection & Reporting Tips", "https://singlefamily.fanniemae.com/media/43946/display", "Published Oct 2025 by Fannie Mae and Freddie Mac. A concise job aid highlighting notable differences in information collected between UAD 2.6 and 3.6. Best quick-reference document for inspection prep — much shorter than Appendix F-1.", "Fannie Mae"),
+        ("📄 Sample URAR Scenarios", "https://sf.freddiemac.com/docs/pdf/uad-sample-scenarios-combined.pdf", "Example completed reports showing what a UAD 3.6 URAR actually looks like for different property types — SFR, condo, 2-4 unit, manufactured housing. Essential for understanding what finished reports should contain before you attempt one.", "Freddie Mac — PDF"),
+        ("🎬 Fannie Mae UAD 3.6 Training", "https://www.fanniemae.com/course/singlefamily/uadtrainingfiles/story.html", "Free interactive training from Fannie Mae covering the new URAR structure, dynamic form behavior, and key field requirements. Best starting point before attempting your first UAD 3.6 report.", "Fannie Mae — Interactive course"),
+        ("📄 Freddie Mac UAD Resources", "https://sf.freddiemac.com/tools-learning/uniform-mortgage-data-program/uad", "Freddie Mac's full resource hub — includes their policy bulletin (2025-7), supplemental guidance, compliance rules, and implementation documents. Some nuances differ from Fannie Mae policy so worth reviewing both.", "Freddie Mac"),
+        ("📄 UAD 3.6 FAQ", "https://singlefamily.fanniemae.com/media/23286/display", "Official FAQ from Fannie Mae and Freddie Mac answering the most common implementation questions. Good first stop when you encounter something unexpected in the new report format.", "Fannie Mae & Freddie Mac"),
+        ("🗺️ FCC Broadband Map", "https://broadbandmap.fcc.gov/home", "Required for verifying broadband internet availability at the subject property — a new required field in UAD 3.6. Enter the subject address to get the official FCC broadband availability data.", "FCC"),
     ]
-    for title, source, desc in gse_resources:
-        with st.expander(f"📄 {title}"):
+
+    for title, url, desc, source in gse_items:
+        with st.expander(title):
             st.write(desc)
             st.caption(f"Source: {source}")
+            st.link_button("Open / Download", url)
 
     st.divider()
     st.markdown("### 🎓 Education and training courses")
