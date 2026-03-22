@@ -43,22 +43,22 @@ with c4:
 st.divider()
 
 # ── Navigation tabs ────────────────────────────────────────────────────────────
-(tab_overview, tab_field_map, tab_inspection,
- tab_ratings, tab_sketch, tab_checklist,
- tab_faq, tab_tools, tab_resources,
- tab_readiness, tab_site_influence, tab_amc) = st.tabs([
+(tab_amc, tab_overview, tab_readiness,
+ tab_inspection, tab_checklist, tab_site_influence,
+ tab_sketch, tab_ratings, tab_field_map,
+ tab_faq, tab_tools, tab_resources) = st.tabs([
+    "🤝 Working With Your AMC",
     "📊 What Changed",
-    "🗺️ Field Mapper",
+    "🚀 Before Your First 3.6 Order",
     "🔍 Inspection Guide",
-    "🏠 C & Q Ratings",
-    "📐 Sketch & ANSI",
     "✅ Inspection Checklist",
+    "🌍 Site Influence Guide",
+    "📐 Sketch & ANSI",
+    "🏠 C & Q Ratings",
+    "🗺️ Field Mapper",
     "❓ FAQ / Revision Responses",
     "💻 Software & Tools",
     "📚 Training Resources",
-    "🚀 Before Your First 3.6 Order",
-    "🌍 Site Influence Guide",
-    "🤝 Working With Your AMC"
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
