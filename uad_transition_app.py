@@ -656,7 +656,7 @@ with tab_tools:
 
 **Note:** Automax's UAD 3.6 deployment is on their active roadmap — confirm current status directly with Automax before committing.
         """)
-        st.link_button("▶ Watch Demo — UAD 3.6 in Minutes (Storyboard EMP)", "https://www.bigmarker.com/communities/Storyboard-EMP/conferences")
+        st.link_button("▶ Watch Demo — UAD 3.6 in Minutes (Storyboard EMP)", "https://www.bigmarker.com/Storyboard-EMP/copilot-to-the-future-uad-3-6-appraisals-in-minutes")
 
     with col_av:
         st.markdown("#### Aivre")
@@ -677,20 +677,21 @@ with tab_tools:
 
 **Note:** No sketch tool currently — verify current feature set as this space moves fast. Subscription pricing is coming — get in now while it's free.
         """)
-        st.link_button("▶ Watch Demo — Appraisal Update Podcast (3.3.26)", "https://www.youtube.com/@appraiserelearning")
-        st.link_button("▶ Watch Demo — Aivre Walkthrough Webinar", "https://www.bigmarker.com/Storyboard-EMP/live-webinar-transforming-appraisals-with-aivre-the-first-gse-verified-software-for-uad-3-6")
+        st.link_button("▶ Watch Demo — Appraisal Update Podcast (3.3.26)", "https://www.youtube.com/watch?v=8UkctnGKCRE&t=541s")
+        st.link_button("▶ Watch Demo — Aivre Walkthrough Webinar", "https://www.youtube.com/watch?v=u-iKQZmmM6M&t=1261s")
 
     st.divider()
     st.markdown("### Software demo videos — watch before you decide")
     st.caption("These videos show real workflows in real software — the fastest way to evaluate before committing.")
 
     demos = [
-        ("TOTAL by a la mode", "Live Demo: How to use UAD 3.6 within TOTAL (Storyboard EMP)", "https://blogs.alamode.com/live-demo-with-storyboard-emp-how-to-use-uad-3.6-within-total", "Storyboard EMP hosted this live demo showing the full UAD 3.6 workflow in TOTAL, the most widely used traditional platform. Good starting point if you're a current TOTAL user."),
-        ("Aivre", "The Appraisal Update Podcast — UAD 3.6 and AI: How Aivre Is Changing Appraisers' Workflows (3.3.26)", "https://www.youtube.com/@appraiserelearning", "Bryan Reynolds and Aivre CEO Jake Lew walk through the software live, including a screen-share demo. The most current look at Aivre's UAD 3.6 workflow."),
-        ("Aivre", "Aivre Appraisal Software Walkthrough Webinar — UAD 3.6, AI & Automation for Appraisers", "https://www.bigmarker.com/Storyboard-EMP/live-webinar-transforming-appraisals-with-aivre-the-first-gse-verified-software-for-uad-3-6", "Full platform walkthrough webinar hosted by Storyboard EMP. Covers data entry, photo classification, analytics, and compliance checking in detail."),
-        ("Automax", "Webinar: Copilot to the Future — UAD 3.6 in Minutes by Storyboard EMP", "https://www.bigmarker.com/communities/Storyboard-EMP/conferences", "Automax's UAD 3.6 demo webinar hosted by Storyboard EMP. Shows how Automax handles the full report workflow including sketch generation."),
-        ("SFREP / Appraise-It Pro", "Writing a UAD 3.6 Report in Appraise-It Pro", "https://www.sfrep.com/training/videos/", "SFREP walks through the UAD 3.6 dynamic URAR in their Appraise-It Pro software. Notable: SFREP was the first of the 'big four' platforms to obtain GSE verification. Free 6-month trial available."),
-        ("ACI", "UAD 3.6 and ACI Solutions — Hosted by NAN", "https://nan-amc.com/uad_3_6/", "Nationwide Appraisal Network hosted this webinar with ACI covering how their platform handles UAD 3.6 compliance, ordering, and delivery."),
+        ("TOTAL by a la mode", "Live Demo: How to use UAD 3.6 within TOTAL (Storyboard EMP)", "https://www.youtube.com/watch?v=YlbaS_iKCI4", "Storyboard EMP hosted this live demo showing the full UAD 3.6 workflow in TOTAL, the most widely used traditional platform. Good starting point if you're a current TOTAL user."),
+        ("Aivre", "The Appraisal Update Podcast — UAD 3.6 and AI: How Aivre Is Changing Appraisers' Workflows (3.3.26)", "https://www.youtube.com/watch?v=8UkctnGKCRE&t=541s", "Bryan Reynolds and Aivre CEO Jake Lew walk through the software live, including a screen-share demo. The most current look at Aivre's UAD 3.6 workflow."),
+        ("Aivre", "Aivre Appraisal Software Walkthrough Webinar — UAD 3.6, AI & Automation for Appraisers", "https://www.youtube.com/watch?v=u-iKQZmmM6M&t=1261s", "Full platform walkthrough webinar. Covers data entry, photo classification, analytics, and compliance checking in detail."),
+        ("Automax", "Webinar: Copilot to the Future — UAD 3.6 in Minutes (Storyboard EMP)", "https://www.bigmarker.com/Storyboard-EMP/copilot-to-the-future-uad-3-6-appraisals-in-minutes", "Automax's UAD 3.6 demo webinar hosted by Storyboard EMP. Shows how Automax handles the full report workflow including instant sketch generation."),
+        ("SFREP / Appraise-It Pro", "Writing a UAD 3.6 Report in Appraise-It Pro", "https://www.youtube.com/watch?v=w0xgZugiSTA&t=1761s", "SFREP walks through the UAD 3.6 dynamic URAR in Appraise-It Pro. SFREP was the first of the 'big four' platforms to obtain GSE verification. Free 6-month trial available at sfrep.com."),
+        ("SFREP / Appraise-It Pro", "Appraise-It Pro UAD 3.6 — Additional Demo", "https://www.youtube.com/watch?v=TFWlwfl1Ycc", "Second SFREP demo covering additional UAD 3.6 functionality in Appraise-It Pro."),
+        ("ACI", "UAD 3.6 and ACI Solutions — Hosted by NAN", "https://www.youtube.com/watch?v=udVnaQXjLyU&t=1852s", "Nationwide Appraisal Network hosted this webinar with ACI covering how their platform handles UAD 3.6 compliance, ordering, and delivery."),
     ]
 
     for software, title, url, desc in demos:
