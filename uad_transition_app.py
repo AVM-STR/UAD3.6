@@ -45,7 +45,8 @@ st.divider()
 # ── Navigation tabs ────────────────────────────────────────────────────────────
 (tab_overview, tab_field_map, tab_inspection,
  tab_ratings, tab_sketch, tab_checklist,
- tab_faq, tab_tools, tab_resources) = st.tabs([
+ tab_faq, tab_tools, tab_resources,
+ tab_readiness, tab_site_influence, tab_amc) = st.tabs([
     "📊 What Changed",
     "🗺️ Field Mapper",
     "🔍 Inspection Guide",
@@ -54,7 +55,10 @@ st.divider()
     "✅ Inspection Checklist",
     "❓ FAQ / Revision Responses",
     "💻 Software & Tools",
-    "📚 Training Resources"
+    "📚 Training Resources",
+    "🚀 Before Your First 3.6 Order",
+    "🌍 Site Influence Guide",
+    "🤝 Working With Your AMC"
 ])
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -730,33 +734,6 @@ with tab_resources:
             st.link_button("Open / Download", url)
 
     st.divider()
-    st.markdown("### 🎓 Education and training courses")
-    courses = [
-        ("Appraiser's Guide to the New URAR (7 hours)", "McKissock Learning", "Comprehensive CE course on the redesigned URAR. 7 hours of CE credit. Covers all major changes, new fields, and reporting requirements. One of the most thorough available."),
-        ("UAD 3.6 Bootcamp (in-person)", "Appraiser eLearning", "Intensive multi-day in-person training with hands-on software demos and Q&A with Fannie Mae and Freddie Mac representatives. Joel Baker from a la mode leads mobile appraising sessions. Watch for future dates."),
-        ("TOTAL for Mobile UAD 3.6 Training", "a la mode / CoreLogic", "Software-specific training for TOTAL users making the transition to UAD 3.6 and mobile data collection. Available through a la mode's training portal."),
-        ("ANSI Z765-2021 Measurement Standard", "ANSI / various providers", "The measurement standard now formalized in UAD 3.6. CE courses covering ANSI are available from McKissock, McKissock, and state appraisal organizations. Essential for understanding GLA, NSFA, and the 7-foot rule."),
-    ]
-    for title, provider, desc in courses:
-        with st.expander(f"🎓 {title}"):
-            st.write(desc)
-            st.caption(f"Provider: {provider}")
-
-    st.divider()
-    st.markdown("### 📰 Recommended reading")
-    reading = [
-        ("Flooded With Change: Appraisers Tackle a Dynamic URAR and UAD 3.6", "Working RE (Oct 2025)", "workingre.com", "One of the best long-form articles on the practical impact of UAD 3.6 for practicing appraisers. Includes industry leader perspectives and what to watch."),
-        ("UAD 3.6 Key Changes (And Resources You Need to Know)", "Appraiser eLearning (Feb 2026)", "appraiserelearning.com", "Bryan Knowlton's practical breakdown of the changes that matter most. Includes the ceiling height requirement, comp drive-by retirement, and broadband field."),
-        ("Understanding Appraisal Condition Ratings Under UAD 3.6", "McKissock Learning", "mckissock.com", "Clear breakdown of how the new multi-level C rating structure works and how to apply it correctly."),
-        ("The New UAD Quality Equation: Interior + Exterior = Overall Rating", "Working RE (Aug 2025)", "workingre.com", "Specific to the new Q rating reconciliation process — how to assess interior and exterior separately and reconcile to overall."),
-        ("UAD 3.6 & ANSI Z765: A Guide to New Appraisal Measurement", "Swish Appraisal", "swishappraisal.com", "Technical but thorough guide to how ANSI Z765-2021 is enforced in UAD 3.6, including the per-floor GLA breakdown requirement and NSFA."),
-    ]
-    for title, source, url, desc in reading:
-        with st.expander(f"📰 {title}"):
-            st.write(desc)
-            st.caption(f"Source: {source} | {url}")
-
-    st.divider()
     st.markdown("### From Absolute Value Management & A-Tech Appraisal")
     st.info("""
 This resource is provided by **Absolute Value Management** and **A-Tech Appraisal Co.** as a service to appraisers navigating the UAD 3.6 transition.
@@ -773,3 +750,215 @@ This guide will be updated as new guidance is released by Fannie Mae and Freddie
     with col_f2:
         if os.path.exists(ATECH_LOGO):
             st.image(ATECH_LOGO, width=140)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 10 — BEFORE YOUR FIRST 3.6 ORDER
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_readiness:
+    st.subheader("🚀 Before Your First UAD 3.6 Order")
+    st.markdown("A one-time readiness checklist to run through before you accept your first UAD 3.6 assignment. This is separate from the inspection checklist — this is about making sure you and your workflow are ready before the order even arrives.")
+    st.info("You don't need to be perfect before accepting your first order — but you should be deliberate. Running through this once will prevent the most common first-order problems.")
+
+    st.divider()
+    st.markdown("### 💻 Software readiness")
+    sw_items = [
+        ("Confirm your report-writing software has completed GSE verification for UAD 3.6", "Not all platforms are verified yet. Verified platforms as of early 2026: Aivre, SFREP / Appraise-It Pro, TOTAL by a la mode (Launch Edition), ACI. Check your vendor's website for current status before accepting a 3.6 order."),
+        ("Download and install the latest software update", "UAD 3.6 support is only available in recent versions. Don't assume your current installation is ready — check for updates."),
+        ("Complete at least one practice report in the new format", "Use the GSE's sample scenarios (Appendix D) as your source material. Run through the full workflow — don't skip sections. The goal is to find your first surprise before it's on a live order."),
+        ("Set up your templates and QuickLists for the new format", "UAD 3.6 fields only match about 6% of UAD 2.6 fields — your existing templates won't transfer. Build a basic 3.6 template with your standard information before your first order arrives."),
+        ("Confirm your mobile app is updated and ready if using mobile workflow", "TOTAL for Mobile, Apex Portal, or whichever mobile solution you're using — make sure it's on the latest version and syncing correctly with your desktop software."),
+    ]
+    for i, (item, detail) in enumerate(sw_items):
+        with st.expander(f"☐ {item}"):
+            st.write(detail)
+
+    st.divider()
+    st.markdown("### 🔧 Equipment readiness")
+    eq_items = [
+        ("Purchase a quality laser distance measurer if you don't have one", "Ceiling height is a required field at every inspection under UAD 3.6. A tape measure and ladder is not practical or safe. A quality laser measurer (Leica, Bosch, or similar) typically runs $50-150 and is a one-time investment."),
+        ("Test your laser measurer before your first inspection", "Know how to use it quickly and accurately — ceiling measurements at the property are not the time to learn a new tool."),
+        ("Confirm your phone/tablet camera meets photo requirements", "UAD 3.6 requires more photos in more specific locations — photos must be placed in the correct section of the report, not dumped into a general addendum. Make sure you have enough storage and a reliable camera."),
+    ]
+    for i, (item, detail) in enumerate(eq_items):
+        with st.expander(f"☐ {item}"):
+            st.write(detail)
+
+    st.divider()
+    st.markdown("### 📋 Knowledge readiness")
+    kn_items = [
+        ("Download Appendix F-1 and keep it searchable on your device", "375 pages — you won't memorize it, but you need to be able to search it quickly when you hit an unfamiliar field. Download it now, not mid-report."),
+        ("Review the new C and Q rating structure", "You now rate Exterior and Interior separately before reconciling to Overall. Review the C & Q Ratings tab on this site and be clear on how the reconciliation works before your first inspection."),
+        ("Understand the new kitchen and bathroom reporting requirements", "Per-kitchen and per-bathroom structured sections replace the old checkbox. Know what you need to collect at each kitchen and bath before you walk into the property."),
+        ("Review the new Site Influence field options", "The old View field is gone. The new Site Influence section captures proximity (onsite/bordering/distant) and direction (positive/neutral/negative). Review the Site Influence Guide tab on this site."),
+        ("Know how NSFA differs from GLA", "Nonstandard Finished Area must be measured and reported separately. Know the ANSI 7-foot ceiling height rule and how to identify NSFA areas before your first inspection."),
+        ("Have the FCC Broadband Map bookmarked", "Broadband availability is a required field. Bookmark broadbandmap.fcc.gov and know how to look up a property address before your first inspection."),
+    ]
+    for i, (item, detail) in enumerate(kn_items):
+        with st.expander(f"☐ {item}"):
+            st.write(detail)
+
+    st.divider()
+    st.markdown("### 🏦 AMC and lender readiness")
+    amc_items = [
+        ("Confirm your AMC is ready to receive UAD 3.6 reports", "During the transition period, not all AMCs and lenders are ready to accept 3.6 reports. A completed 3.6 report cannot be converted to 2.6 — if your client can't accept it, you'd need to start over. Confirm before you accept the order."),
+        ("Know what format the specific order requires", "Orders during the transition period will specify UAD 2.6 or UAD 3.6. Read the order carefully — don't assume all orders from the same AMC will be the same format."),
+        ("Understand what happens if you need more time", "UAD 3.6 reports take longer initially — especially the first few. Communicate proactively with your AMC if you need additional time. Your AMC is here to support the transition, not penalize you for it."),
+        ("Know who to contact at your AMC with questions", "Have your AMC contact information handy before your first order. Questions will come up — the best time to establish that communication channel is before you need it urgently."),
+    ]
+    for i, (item, detail) in enumerate(amc_items):
+        with st.expander(f"☐ {item}"):
+            st.write(detail)
+
+    st.divider()
+    st.success("When you've worked through this checklist you're ready. Your first UAD 3.6 order will still have surprises — that's normal. The goal is to make sure none of them are the preventable ones.")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 11 — SITE INFLUENCE GUIDE
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_site_influence:
+    st.subheader("🌍 Site Influence Quick Reference Guide")
+    st.markdown("The old View field is gone. UAD 3.6 replaces it with a structured Site Influence section that captures two separate dimensions for every influence: **where it is** relative to the property and **whether it's positive, neutral, or negative**.")
+
+    st.info("The Site section is the second largest chapter in Appendix F-1 (30 pages), trailing only the Sales Comparison Approach. Take it seriously — automated review tools will check for consistency between your site influence entries and your adjustments.")
+
+    st.divider()
+    st.markdown("### The two dimensions you must report for every influence")
+
+    col_prox, col_dir = st.columns(2)
+    with col_prox:
+        st.markdown("#### Dimension 1 — Proximity")
+        st.markdown("""
+**Onsite** — The influence is located on the subject's lot itself.
+*Example: A pond on the property, a power line running across the lot, mature trees.*
+
+**Bordering** — The influence is immediately adjacent to the property but not on it.
+*Example: A busy road directly bordering the rear lot line, a neighboring commercial property, a stream along the property edge.*
+
+**Distant** — The influence affects value from a distance without direct adjacency.
+*Example: A water view from the property, proximity to a highway heard but not adjoining, a golf course visible from the backyard.*
+        """)
+    with col_dir:
+        st.markdown("#### Dimension 2 — Direction")
+        st.markdown("""
+**Positive** — The influence adds to marketability and value.
+*Example: Waterfront location, golf lot, park views, conservation land.*
+
+**Neutral** — The influence has no measurable effect on value.
+*Example: Standard residential street, typical neighborhood amenities.*
+
+**Negative** — The influence detracts from marketability and value.
+*Example: Power lines, busy road, commercial adjacency, flood zone, industrial proximity.*
+        """)
+
+    st.divider()
+    st.markdown("### Common scenarios — how to classify them")
+
+    scenarios = [
+        ("Waterfront — water on the lot (pond, river, lake)", "Onsite", "Positive", "The water feature is part of the subject's lot. Positive influence on marketability. Support with waterfront comp adjustments in the sales comparison approach."),
+        ("Water view — can see water but not on lot", "Distant", "Positive", "The view influence comes from a distance. Still positive but typically commands a lower premium than direct waterfront. Distinguish clearly from onsite water."),
+        ("Bordering water — water adjacent to but not on lot", "Bordering", "Positive", "Common with properties backing to a river or stream that runs along the lot line. The water is not on the property but is immediately adjacent."),
+        ("Golf lot — fairway or green adjacent to property", "Bordering", "Positive", "Typically borders the lot rather than being on it. Positive influence — note the specific hole or location if relevant to marketability."),
+        ("Power lines — crossing or on the lot", "Onsite", "Negative", "Easement running across the property. Negative influence on marketability. Note the easement in the site section and support your adjustment with paired sales or market data."),
+        ("Power lines — along adjacent street or bordering", "Bordering", "Negative", "Lines run along the road or neighboring parcel but don't cross the subject lot. Still negative but typically a lesser impact than onsite."),
+        ("High traffic road — lot directly borders it", "Bordering", "Negative", "The busy road is immediately adjacent. Negative influence — noise, safety, and marketability impact. Support with paired sales where possible."),
+        ("Highway noise — heard but not adjacent", "Distant", "Negative", "Traffic noise from a nearby highway that doesn't directly border the property. Negative but typically lesser than bordering. Note the approximate distance."),
+        ("Conservation land / open space — adjacent", "Bordering", "Positive", "Abutting conservation land or open space adds privacy and permanence. Positive influence — common in rural RI/MA markets."),
+        ("Commercial property — directly adjacent", "Bordering", "Negative", "Neighboring commercial use creates noise, traffic, and visual impact. Negative influence — note the type of commercial use."),
+        ("Flood zone — affects part of the lot", "Onsite", "Negative", "The flood zone designation is a site characteristic of the property itself. Negative influence — note whether improvements are in or out of the flood zone."),
+        ("Industrial or manufacturing — nearby but not adjacent", "Distant", "Negative", "Odor, noise, truck traffic from a nearby industrial use. Negative influence at a distance — note approximate distance and nature of the use."),
+        ("No notable external influences", "N/A", "Neutral", "If no external influences materially affect the property, report neutral. Don't force a positive or negative when the site is truly typical for the area."),
+        ("Coastal location — ocean proximity and views", "Distant or Bordering", "Positive", "Depends on the specific property. Oceanfront (bordering or onsite) vs ocean view property (distant). Classify based on actual proximity. Common in Narragansett, Newport, coastal RI/MA markets."),
+    ]
+
+    for scenario, proximity, direction, notes in scenarios:
+        icon = "🟢" if direction == "Positive" else "🔴" if direction == "Negative" else "⚪"
+        with st.expander(f"{icon} {scenario}"):
+            col_a, col_b = st.columns(2)
+            with col_a:
+                st.metric("Proximity", proximity)
+            with col_b:
+                st.metric("Direction", direction)
+            st.write(notes)
+
+    st.divider()
+    st.markdown("### Key rules to remember")
+    rules = [
+        "A single property can have multiple site influences — report each one separately.",
+        "The proximity and direction classifications must be internally consistent with your adjustments in the sales comparison approach. If you report a negative influence, there should be a corresponding adjustment.",
+        "The support for your site influence adjustment should be the same as any other adjustment — paired sales analysis, market data, or documented market knowledge.",
+        "When no comparable sales share the same influence (no bracket), document your adjustment methodology clearly. A conservative adjustment based on market knowledge and realtor interviews is acceptable when paired sales aren't available.",
+        "Don't overclassify — a standard residential street is neutral, not a negative. Reserve negative classifications for influences that demonstrably affect marketability in your market.",
+        "For coastal RI and MA markets: waterfront and water view classifications will be scrutinized. Be precise about proximity and support your adjustments with market data specific to those submarkets.",
+    ]
+    for rule in rules:
+        st.markdown(f"• {rule}")
+
+    st.caption("Source: Appendix F-1 URAR Reference Guide (Fannie Mae, 30-page Site section), GSE Inspection and Reporting Tips (Oct 2025).")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# TAB 12 — WORKING WITH YOUR AMC
+# ══════════════════════════════════════════════════════════════════════════════
+with tab_amc:
+    st.subheader("🤝 Working With Your AMC During the UAD 3.6 Transition")
+    st.markdown("The transition to UAD 3.6 is a shared process — not something appraisers navigate alone. Your AMC is your partner in this transition, not an obstacle. This section covers what to expect, how to communicate, and how to get help when you need it.")
+
+    st.success("**If you need help, reach out. If you need more time, communicate. We are here to support you through this transition — not to judge you for it.**")
+
+    st.divider()
+    st.markdown("### What your AMC needs from you on UAD 3.6 orders")
+
+    needs = [
+        ("Confirm you are set up for UAD 3.6 before accepting orders", "Before accepting your first UAD 3.6 order, make sure your software is verified, updated, and that you've completed at least one practice report. If you're not ready yet, let us know — we can route UAD 3.6 orders to appraisers who are ready while you get set up."),
+        ("Tell us upfront if an order will take longer than usual", "UAD 3.6 reports take more time initially — especially the first several. This is expected and normal. What we need from you is a heads up before the due date, not an explanation after it. Early communication always results in a better outcome than a late surprise."),
+        ("Flag any issues with the report format or lender readiness immediately", "If you complete a UAD 3.6 report and discover the lender can't accept it, contact us right away. A completed 3.6 report cannot be converted to 2.6 — the sooner we know, the more options we have to resolve it."),
+        ("Use the correct format for each specific order", "Each order will specify UAD 2.6 or UAD 3.6. Read the order instructions carefully. During the transition period we will have both formats in circulation simultaneously — don't assume all orders from us are the same format."),
+        ("Ask questions before you start, not after you submit", "If something about the assignment, format, or scope is unclear, contact us before you begin. Questions after submission often result in revisions that could have been avoided. There are no bad questions during a transition this significant."),
+    ]
+    for title, detail in needs:
+        with st.expander(f"📋 {title}"):
+            st.write(detail)
+
+    st.divider()
+    st.markdown("### What you can expect from us")
+
+    support = [
+        ("We will not penalize you for the learning curve", "UAD 3.6 is the biggest format change in 15 years. We understand that first reports take longer and may have more questions. Our goal is to support your transition, not create a penalty system around it. If your first few 3.6 reports take extra time, communicate with us and we'll work with you."),
+        ("We will be clear about which orders require UAD 3.6", "Every order will clearly specify the required format. We will not leave you guessing. If an order is unclear, contact us and we'll clarify before you start."),
+        ("We will keep you informed as lender readiness changes", "During the transition period, different lenders are adopting 3.6 at different rates. We will communicate which lenders are 3.6-ready and update you as that changes so you're never caught off guard."),
+        ("We will help you resolve format issues", "If a lender cannot accept a 3.6 report you've completed, we will work with you to find the best resolution. We handle the lender and AMC side of that conversation — you focus on the appraisal."),
+        ("We will share resources and training as we find them", "This site is part of that commitment. We'll continue to update it as new guidance, tools, and best practices emerge. If you find something useful that isn't here, let us know and we'll add it."),
+    ]
+    for title, detail in support:
+        with st.expander(f"✅ {title}"):
+            st.write(detail)
+
+    st.divider()
+    st.markdown("### Common transition situations and how to handle them")
+
+    situations = [
+        ("I received a UAD 3.6 order but my software isn't verified yet", "Contact us immediately — before starting the report. We can reassign the order or give you additional time to get your software updated. Do not attempt a UAD 3.6 report in unverified software — the output will fail UCDP compliance checks."),
+        ("I need more time to complete a UAD 3.6 report", "Contact us as soon as you know — ideally at least 24-48 hours before the due date. We will communicate with the lender on your behalf. Early communication is almost always resolvable. Last-minute communication is much harder to manage."),
+        ("I'm not sure if a specific field should be classified as UAD 3.6 or has a question about a new field", "Check Appendix F-1 first — it's the authoritative source. If you still have questions after checking, contact us. We'd rather you ask and get it right than guess and get it wrong."),
+        ("I completed a UAD 3.6 report but the lender says they can't accept it", "Contact us immediately. This is a lender system readiness issue, not an appraiser error. We will handle the lender communication and work toward the best resolution available."),
+        ("I'm getting revision requests that seem UAD 3.6 specific", "Use the FAQ / Revision Responses tab on this site for pre-written responses to the most common UAD 3.6 revision requests. If you get a revision request that isn't covered there, contact us — we'll help you draft the response and add it to the library."),
+        ("I want to start practicing UAD 3.6 but haven't received an order yet", "That's the right approach. Use your software's learning or practice mode and the GSE's sample scenarios (linked in the Training Resources tab) to practice before your first live order. Contact us if you want feedback on a practice report."),
+    ]
+    for situation, response in situations:
+        with st.expander(f"❓ {situation}"):
+            st.write(response)
+
+    st.divider()
+    st.info("**The bottom line:** UAD 3.6 is a significant change for everyone — appraisers, AMCs, lenders, and software providers. We are all navigating it together. Open communication is the single most important thing you can do to make your transition smooth. We are here, we are reachable, and we want you to succeed.")
+
+    st.divider()
+    col_f1, col_f2 = st.columns(2)
+    with col_f1:
+        if os.path.exists(AVM_LOGO):
+            st.image(AVM_LOGO, width=140)
+        st.markdown("**Absolute Value Management**")
+        st.caption("Your AMC contact for UAD 3.6 questions, order format clarification, and transition support.")
+    with col_f2:
+        if os.path.exists(ATECH_LOGO):
+            st.image(ATECH_LOGO, width=140)
+        st.markdown("**A-Tech Appraisal Co.**")
+        st.caption("Co-presenter of this resource. Questions about appraisal workflow, software, or field practice.")
