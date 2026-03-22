@@ -418,8 +418,8 @@ with tab_checklist:
         "Confirm assignment type — interior, exterior, or desktop — determines which sections activate",
         "Review prior appraisal if available — note any prior condition or quality ratings",
     ]
-    for item in pre_items:
-        st.checkbox(item, key=f"pre_{item[:20]}")
+    for i, item in enumerate(pre_items):
+        st.checkbox(item, key=f"pre_{i}")
 
     st.divider()
     st.markdown("### Equipment checklist")
@@ -429,8 +429,8 @@ with tab_checklist:
         "Camera — front, rear, street scene, all rooms, kitchen close-up, bath close-up",
         "Measuring wheel or laser for exterior measurements",
     ]
-    for item in equip_items:
-        st.checkbox(item, key=f"equip_{item[:20]}")
+    for i, item in enumerate(equip_items):
+        st.checkbox(item, key=f"equip_{i}")
 
     st.divider()
     st.markdown("### Site observations")
@@ -444,8 +444,8 @@ with tab_checklist:
         "Disaster mitigation features — storm shutters, hurricane straps, flood vents, seismic retrofit",
         "ADU — if present: separate entrance? kitchen? bed/bath count? legal permit status?",
     ]
-    for item in site_items:
-        st.checkbox(item, key=f"site_{item[:20]}")
+    for i, item in enumerate(site_items):
+        st.checkbox(item, key=f"site_{i}")
 
     st.divider()
     st.markdown("### Exterior observations")
@@ -460,8 +460,8 @@ with tab_checklist:
         "Driveway, walkways, patios — material and condition",
         "Any exterior deficiencies — note location, description, impact, estimated repair cost",
     ]
-    for item in ext_items:
-        st.checkbox(item, key=f"ext_{item[:20]}")
+    for i, item in enumerate(ext_items):
+        st.checkbox(item, key=f"ext_{i}")
 
     st.divider()
     st.markdown("### Interior observations — per floor")
@@ -479,8 +479,8 @@ with tab_checklist:
         "Plumbing — any visible issues, water heater age",
         "Any interior deficiencies — note location, description, impact, estimated repair cost",
     ]
-    for item in int_items:
-        st.checkbox(item, key=f"int_{item[:20]}")
+    for i, item in enumerate(int_items):
+        st.checkbox(item, key=f"int_{i}")
 
     st.divider()
     st.markdown("### Kitchen details — complete for EACH kitchen")
@@ -490,8 +490,8 @@ with tab_checklist:
         "Kitchen condition rating (C1–C6)",
         "Brief description — countertop material, cabinet quality, appliances, floor",
     ]
-    for item in kitchen_items:
-        st.checkbox(item, key=f"kit_{item[:20]}")
+    for i, item in enumerate(kitchen_items):
+        st.checkbox(item, key=f"kit_{i}")
 
     st.divider()
     st.markdown("### Bathroom details — complete for EACH bathroom (including half baths)")
@@ -501,8 +501,8 @@ with tab_checklist:
         "Bathroom condition rating (C1–C6)",
         "Brief description — fixtures, tile, vanity, condition",
     ]
-    for item in bath_items:
-        st.checkbox(item, key=f"bath_{item[:20]}")
+    for i, item in enumerate(bath_items):
+        st.checkbox(item, key=f"bath_{i}")
 
     st.divider()
     st.markdown("### Before you leave")
@@ -517,8 +517,8 @@ with tab_checklist:
         "Confirm outbuilding utilities documented if applicable",
         "Confirm ADU section data collected if applicable",
     ]
-    for item in final_items:
-        st.checkbox(item, key=f"final_{item[:20]}")
+    for i, item in enumerate(final_items):
+        st.checkbox(item, key=f"final_{i}")
 
     st.info("💡 Note: This checklist covers UAD 3.6 specific requirements. Standard inspection practices (property access, scope of work, USPAP compliance) remain unchanged.")
 
@@ -574,11 +574,11 @@ with tab_faq:
     st.write(f"**{len(filtered_faqs)} entr{'y' if len(filtered_faqs)==1 else 'ies'}**")
     st.divider()
 
-    for question, trigger, response in filtered_faqs:
+    for idx, (question, trigger, response) in enumerate(filtered_faqs):
         with st.expander(f"❓ {question}"):
             st.caption(f"🔔 Trigger: {trigger}")
             st.markdown("**Suggested response:**")
-            st.text_area("Copy:", value=response, height=160, key=f"faq_{question[:15]}")
+            st.text_area("Copy:", value=response, height=160, key=f"faq_{idx}")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 8 — SOFTWARE & TOOLS
