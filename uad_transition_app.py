@@ -15,21 +15,40 @@ st.set_page_config(
     layout="wide"
 )
 
-# ── Header ─────────────────────────────────────────────────────────────────────
-col_logo1, col_title, col_logo2 = st.columns([1, 4, 1])
-with col_logo1:
+# ── Sidebar Navigation ─────────────────────────────────────────────────────────
+with st.sidebar:
     if os.path.exists(AVM_LOGO):
         st.image(AVM_LOGO, width=160)
-with col_title:
-    st.title("UAD 2.6 → 3.6 Transition Guide")
-    st.caption("A resource for appraisers navigating the biggest form change in 15 years — presented by Absolute Value Management & A-Tech Appraisal Co.")
-with col_logo2:
     if os.path.exists(ATECH_LOGO):
         st.image(ATECH_LOGO, width=160)
+    st.title("UAD 3.6 Transition Guide")
+    st.divider()
+    selection = st.selectbox(
+        "Select a Section",
+        [
+            "🤝 Working With Your AMC",
+            "📊 What Changed",
+            "🚀 Before Your First 3.6 Order",
+            "🔍 Inspection Guide",
+            "✅ Inspection Checklist",
+            "🌍 Site Influence Guide",
+            "📐 Sketch & ANSI",
+            "🏠 C & Q Ratings",
+            "🗺️ Field Mapper",
+            "❓ FAQ / Revision Responses",
+            "💻 Software & Tools",
+            "📚 Training Resources",
+        ],
+        label_visibility="collapsed"
+    )
+    st.divider()
+    st.info("⏱️ **Nov 2, 2026** — UAD 3.6 mandatory")
+    st.caption("Presented by Absolute Value Management & A-Tech Appraisal Co.")
 
-st.divider()
+# ── Main Header ────────────────────────────────────────────────────────────────
+st.title(selection)
 
-# ── Timeline banner ────────────────────────────────────────────────────────────
+# ── Timeline banner (always visible) ──────────────────────────────────────────
 c1, c2, c3, c4 = st.columns(4)
 with c1:
     st.info("**Sept 8, 2025**\nLimited Production begins")
@@ -42,29 +61,10 @@ with c4:
 
 st.divider()
 
-# ── Navigation tabs ────────────────────────────────────────────────────────────
-(tab_amc, tab_overview, tab_readiness,
- tab_inspection, tab_checklist, tab_site_influence,
- tab_sketch, tab_ratings, tab_field_map,
- tab_faq, tab_tools, tab_resources) = st.tabs([
-    "🤝 Working With Your AMC",
-    "📊 What Changed",
-    "🚀 Before Your First 3.6 Order",
-    "🔍 Inspection Guide",
-    "✅ Inspection Checklist",
-    "🌍 Site Influence Guide",
-    "📐 Sketch & ANSI",
-    "🏠 C & Q Ratings",
-    "🗺️ Field Mapper",
-    "❓ FAQ / Revision Responses",
-    "💻 Software & Tools",
-    "📚 Training Resources",
-])
-
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 1 — WHAT CHANGED
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_overview:
+if selection == "📊 What Changed":
     st.subheader("What's the same, what changed, what's new, and what's gone")
     st.markdown("The most important thing to understand first: **UAD 3.6 does not change how you estimate value.** It changes how that work is reported and what data is collected. USPAP obligations are unchanged. Your professional judgment is still the foundation of every report.")
 
@@ -130,7 +130,7 @@ with tab_overview:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — FIELD MAPPER
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_field_map:
+elif selection == "🗺️ Field Mapper":
     st.subheader("Field Mapper — find where your 2.6 data lives in 3.6")
     st.caption("Type any field name, section, or keyword from your current 1004 to find its UAD 3.6 equivalent.")
 
@@ -191,7 +191,7 @@ with tab_field_map:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 3 — INSPECTION GUIDE
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_inspection:
+elif selection == "🔍 Inspection Guide":
     st.subheader("What to collect at every inspection under UAD 3.6")
     st.warning("UAD 3.6 requires significantly more structured data collected in the field. Plan your inspections accordingly — some of this requires new tools or conversations with the owner/agent that weren't part of your workflow before.")
 
@@ -254,7 +254,7 @@ with tab_inspection:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 4 — C & Q RATINGS
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_ratings:
+elif selection == "🏠 C & Q Ratings":
     st.subheader("Condition & Quality Ratings")
 
     rating_tab1, rating_tab2, rating_tab3 = st.tabs([
@@ -355,7 +355,7 @@ If your overall condition rating doesn't align with your kitchen details, bathro
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 5 — SKETCH & ANSI
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_sketch:
+elif selection == "📐 Sketch & ANSI":
     st.subheader("Sketch & ANSI Z765-2021 Measurement Guide")
     st.info("ANSI Z765-2021 is now formalized in UAD 3.6 and enforced by UCDP compliance rules. The way above-grade finished area is measured, reported, and broken out by floor has specific requirements that will be checked on submission.")
 
@@ -409,7 +409,7 @@ NSFA is finished space that does not qualify as GLA under ANSI but still contrib
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 6 — INSPECTION CHECKLIST
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_checklist:
+elif selection == "✅ Inspection Checklist":
     st.subheader("UAD 3.6 Inspection Checklist")
     st.markdown("A room-by-room reference for what to collect at every inspection. Print or reference on your mobile device.")
     st.caption("This checklist covers the new and changed data requirements under UAD 3.6. Standard inspection practices remain unchanged.")
@@ -529,7 +529,7 @@ with tab_checklist:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 7 — FAQ / REVISION RESPONSES
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_faq:
+elif selection == "❓ FAQ / Revision Responses":
     st.subheader("FAQ & Common Revision Responses")
     st.markdown("Common questions from lenders, AMCs, and underwriters during the UAD 3.6 transition — with suggested appraiser responses.")
 
@@ -587,7 +587,7 @@ with tab_faq:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 8 — SOFTWARE & TOOLS
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_tools:
+elif selection == "💻 Software & Tools":
     st.subheader("Report Writing Software & Tools")
     st.markdown("A plain-language guide to the software landscape for UAD 3.6 — written for appraisers at every experience level.")
 
@@ -711,7 +711,7 @@ with tab_tools:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 9 — TRAINING RESOURCES
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_resources:
+elif selection == "📚 Training Resources":
     st.subheader("Training Resources & Reference Materials")
     st.markdown("The best UAD 3.6 resources — curated and organized so you don't have to hunt across multiple sites.")
 
@@ -754,7 +754,7 @@ This guide will be updated as new guidance is released by Fannie Mae and Freddie
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 10 — BEFORE YOUR FIRST 3.6 ORDER
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_readiness:
+elif selection == "🚀 Before Your First 3.6 Order":
     st.subheader("🚀 Before Your First UAD 3.6 Order")
     st.markdown("A one-time readiness checklist to run through before you accept your first UAD 3.6 assignment. This is separate from the inspection checklist — this is about making sure you and your workflow are ready before the order even arrives.")
     st.info("You don't need to be perfect before accepting your first order — but you should be deliberate. Running through this once will prevent the most common first-order problems.")
@@ -815,7 +815,7 @@ with tab_readiness:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 11 — SITE INFLUENCE GUIDE
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_site_influence:
+elif selection == "🌍 Site Influence Guide":
     st.subheader("🌍 Site Influence Quick Reference Guide")
     st.markdown("The old View field is gone. UAD 3.6 replaces it with a structured Site Influence section that captures two separate dimensions for every influence: **where it is** relative to the property and **whether it's positive, neutral, or negative**.")
 
@@ -898,7 +898,7 @@ with tab_site_influence:
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 12 — WORKING WITH YOUR AMC
 # ══════════════════════════════════════════════════════════════════════════════
-with tab_amc:
+elif selection == "🤝 Working With Your AMC":
     st.subheader("🤝 Working With Your AMC During the UAD 3.6 Transition")
     st.markdown("The transition to UAD 3.6 is a shared process — not something appraisers navigate alone. Your AMC is your partner in this transition, not an obstacle. This section covers what to expect, how to communicate, and how to get help when you need it.")
 
