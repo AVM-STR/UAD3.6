@@ -526,6 +526,117 @@ elif selection == "✅ Inspection Checklist":
 
     st.info("💡 Note: This checklist covers UAD 3.6 specific requirements. Standard inspection practices (property access, scope of work, USPAP compliance) remain unchanged.")
 
+    st.divider()
+    st.markdown("### 🖨️ Printable Version")
+    st.caption("Opens as an HTML file — open in any browser and print, or print to PDF. Formatted for 8.5 x 11 with checkboxes.")
+
+    printable_html = """<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>UAD 3.6 Inspection Checklist</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 11pt; margin: 0.75in; color: #111; }
+  h1 { font-size: 15pt; margin-bottom: 2px; }
+  .subtitle { font-size: 9pt; color: #555; margin-bottom: 16px; }
+  h2 { font-size: 11pt; margin-top: 18px; margin-bottom: 6px; border-bottom: 1px solid #ccc; padding-bottom: 3px; }
+  .item { display: flex; align-items: flex-start; margin: 5px 0; }
+  .box { width: 13px; height: 13px; border: 1.5px solid #333; display: inline-block; margin-right: 8px; margin-top: 2px; flex-shrink: 0; }
+  .label { line-height: 1.4; }
+  .footer { font-size: 8pt; color: #888; margin-top: 24px; border-top: 1px solid #ddd; padding-top: 6px; }
+  @media print {
+    body { margin: 0.6in; }
+    h2 { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<h1>UAD 3.6 Inspection Checklist</h1>
+<div class="subtitle">Presented by Absolute Value Management &amp; A-Tech Appraisal Co. &nbsp;|&nbsp; Mandatory: November 2, 2026</div>
+
+<h2>Before You Arrive</h2>
+<div class="item"><span class="box"></span><span class="label">Pull property from public records — confirm address, legal description, zoning, lot size</span></div>
+<div class="item"><span class="box"></span><span class="label">Review MLS listing for listed features, updates, and seller disclosures</span></div>
+<div class="item"><span class="box"></span><span class="label">Check FCC Broadband Map (broadbandmap.fcc.gov) for broadband availability</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm assignment type — interior, exterior, or desktop — determines which sections activate</span></div>
+<div class="item"><span class="box"></span><span class="label">Review prior appraisal if available — note any prior condition or quality ratings</span></div>
+
+<h2>Equipment Checklist</h2>
+<div class="item"><span class="box"></span><span class="label">Laser distance measurer (required for ceiling heights)</span></div>
+<div class="item"><span class="box"></span><span class="label">Mobile device with UAD 3.6 software loaded and assignment open</span></div>
+<div class="item"><span class="box"></span><span class="label">Camera — front, rear, street scene, all rooms, kitchen close-up, bath close-up</span></div>
+<div class="item"><span class="box"></span><span class="label">Measuring wheel or laser for exterior measurements</span></div>
+
+<h2>Site Observations</h2>
+<div class="item"><span class="box"></span><span class="label">Access road type — public paved / private paved / gravel / dirt / other</span></div>
+<div class="item"><span class="box"></span><span class="label">Site influence — for each influence: onsite / bordering / distant AND positive / neutral / negative</span></div>
+<div class="item"><span class="box"></span><span class="label">Flood zone — confirm via FEMA map, note zone designation</span></div>
+<div class="item"><span class="box"></span><span class="label">Zoning — verify current zoning, note any nonconforming use</span></div>
+<div class="item"><span class="box"></span><span class="label">Utilities — public or private for each: electric, gas, water, sewer</span></div>
+<div class="item"><span class="box"></span><span class="label">Outbuildings — if present: type, size, utilities extended to each</span></div>
+<div class="item"><span class="box"></span><span class="label">Disaster mitigation features — storm shutters, hurricane straps, flood vents, seismic retrofit</span></div>
+<div class="item"><span class="box"></span><span class="label">ADU — if present: separate entrance? kitchen? bed/bath count? legal permit status?</span></div>
+
+<h2>Exterior Observations</h2>
+<div class="item"><span class="box"></span><span class="label">Exterior quality rating (Q1–Q6) — assess independently of interior</span></div>
+<div class="item"><span class="box"></span><span class="label">Exterior condition rating (C1–C6) — assess independently of interior</span></div>
+<div class="item"><span class="box"></span><span class="label">Siding material and condition</span></div>
+<div class="item"><span class="box"></span><span class="label">Roof material, design, and estimated replacement date (ask owner/agent if not observable)</span></div>
+<div class="item"><span class="box"></span><span class="label">Foundation type and any visible deficiencies</span></div>
+<div class="item"><span class="box"></span><span class="label">Windows and doors — material, condition, any issues</span></div>
+<div class="item"><span class="box"></span><span class="label">Trim and architectural detail — quality of finish</span></div>
+<div class="item"><span class="box"></span><span class="label">Driveway, walkways, patios — material and condition</span></div>
+<div class="item"><span class="box"></span><span class="label">Any exterior deficiencies — note location, description, impact, estimated repair cost</span></div>
+
+<h2>Interior Observations — Per Floor</h2>
+<div class="item"><span class="box"></span><span class="label">Ceiling height — measure each level with laser (required every inspection)</span></div>
+<div class="item"><span class="box"></span><span class="label">Identify any NSFA areas — sloped ceilings under 7 ft, bonus rooms, etc. Measure separately</span></div>
+<div class="item"><span class="box"></span><span class="label">Interior quality rating (Q1–Q6) — assess independently of exterior</span></div>
+<div class="item"><span class="box"></span><span class="label">Interior condition rating (C1–C6) — assess independently of exterior</span></div>
+<div class="item"><span class="box"></span><span class="label">Flooring materials — type and condition by area</span></div>
+<div class="item"><span class="box"></span><span class="label">Wall and ceiling materials — type and condition</span></div>
+<div class="item"><span class="box"></span><span class="label">Trim and millwork — quality and condition</span></div>
+<div class="item"><span class="box"></span><span class="label">Built-ins, cabinetry quality throughout</span></div>
+<div class="item"><span class="box"></span><span class="label">HVAC — type, age if observable, condition</span></div>
+<div class="item"><span class="box"></span><span class="label">Electrical — panel type, any visible issues</span></div>
+<div class="item"><span class="box"></span><span class="label">Plumbing — any visible issues, water heater age</span></div>
+<div class="item"><span class="box"></span><span class="label">Any interior deficiencies — note location, description, impact, estimated repair cost</span></div>
+
+<h2>Kitchen Details — Complete for EACH Kitchen</h2>
+<div class="item"><span class="box"></span><span class="label">Update status — updated / not updated / remodeled</span></div>
+<div class="item"><span class="box"></span><span class="label">Approximate year of update (if updated or remodeled)</span></div>
+<div class="item"><span class="box"></span><span class="label">Kitchen condition rating (C1–C6)</span></div>
+<div class="item"><span class="box"></span><span class="label">Brief description — countertop material, cabinet quality, appliances, floor</span></div>
+
+<h2>Bathroom Details — Complete for EACH Bathroom (including half baths)</h2>
+<div class="item"><span class="box"></span><span class="label">Update status — updated / not updated / remodeled</span></div>
+<div class="item"><span class="box"></span><span class="label">Approximate year of update (if updated or remodeled)</span></div>
+<div class="item"><span class="box"></span><span class="label">Bathroom condition rating (C1–C6)</span></div>
+<div class="item"><span class="box"></span><span class="label">Brief description — fixtures, tile, vanity, condition</span></div>
+
+<h2>Before You Leave</h2>
+<div class="item"><span class="box"></span><span class="label">Confirm all required photos taken — front, rear, street scene, all rooms, kitchen, all baths</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm ceiling heights recorded for all levels</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm NSFA areas identified and measured separately if present</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm GLA sketch reflects per-floor breakdown</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm broadband availability recorded</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm access road type recorded</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm roof replacement date collected (from owner/agent/permits)</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm outbuilding utilities documented if applicable</span></div>
+<div class="item"><span class="box"></span><span class="label">Confirm ADU section data collected if applicable</span></div>
+
+<div class="footer">UAD 3.6 Inspection Checklist &nbsp;|&nbsp; Absolute Value Management &amp; A-Tech Appraisal Co. &nbsp;|&nbsp; Mandatory November 2, 2026 &nbsp;|&nbsp; This checklist covers UAD 3.6 specific requirements. Standard inspection practices and USPAP obligations remain unchanged.</div>
+</body>
+</html>"""
+
+    st.download_button(
+        label="🖨️ Download Printable Checklist (HTML)",
+        data=printable_html,
+        file_name="UAD_36_Inspection_Checklist.html",
+        mime="text/html",
+        use_container_width=True
+    )
+
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 7 — FAQ / REVISION RESPONSES
 # ══════════════════════════════════════════════════════════════════════════════
