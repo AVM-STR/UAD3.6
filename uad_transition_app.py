@@ -47,6 +47,8 @@ with st.sidebar:
             "🏠 C & Q Ratings",
             "🌍 Site Influence Guide",
             "❓ FAQ / Revision Responses",
+            "🤖 Addendum Generator",
+            "📬 Stip / Revision Decoder",
         ],
         label_visibility="collapsed",
         key="workflow_sel"
@@ -1464,3 +1466,266 @@ Rules:
 
         st.text_area("📋 Copy-pasteable text", value=plain_text, height=300, key="summary_text")
         st.caption("Select all → copy → paste into TOTAL notes, workfile, or email.")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ADDENDUM GENERATOR
+# ══════════════════════════════════════════════════════════════════════════════
+elif selection == "🤖 Addendum Generator":
+    st.markdown("Describe the appraisal situation and Claude will draft USPAP-compliant addendum language formatted for UAD 3.6.")
+    st.caption("Output is a starting point — review and adjust to match your specific assignment before pasting into TOTAL.")
+
+    if not ANTHROPIC_AVAILABLE:
+        st.error("The `anthropic` package is required. Add it to your requirements.txt and redeploy.")
+        st.stop()
+
+    st.divider()
+
+    col_a, col_b = st.columns(2)
+    with col_a:
+        prop_type = st.selectbox("Property Type", [
+            "Single Family Residential",
+            "Condominium",
+            "2-4 Family",
+            "Manufactured Home",
+            "Mixed Use",
+            "Land / Vacant",
+        ], key="ag_prop_type")
+        report_type = st.selectbox("Report Type", [
+            "URAR UAD 3.6",
+            "URAR UAD 2.6 / Legacy 1004",
+            "1073 Condo",
+            "2055 Exterior Only",
+            "Desktop",
+        ], key="ag_report_type")
+    with col_b:
+        addendum_type = st.selectbox("Addendum Category", [
+            "Comparable Selection / Market Area",
+            "Condition or Quality Rating (C&Q)",
+            "Adjustment Methodology",
+            "Market Conditions / Time Adjustments",
+            "Site / Location / External Influences",
+            "GLA / Measurement Discrepancy",
+            "Income Approach Reconciliation",
+            "Prior Sale / Transfer History",
+            "Scope of Work / Inspection Limitation",
+            "Subject-To / Hypothetical Condition",
+            "ADU / Accessory Dwelling",
+            "Flood Zone / Environmental",
+            "Other / Custom",
+        ], key="ag_addendum_type")
+        tone = st.selectbox("Tone", [
+            "Standard — professional, concise",
+            "Detailed — thorough with citations",
+            "Rebuttal — firm, defensible",
+        ], key="ag_tone")
+
+    situation = st.text_area(
+        "Describe the situation *",
+        height=140,
+        placeholder="Example: Subject is a land condo. Client is requesting clarification on why it was not classified as a PUD. The subject has no common areas maintained by an HOA and the owner holds fee simple title to the land beneath the structure.",
+        key="ag_situation"
+    )
+
+    extra = st.text_area(
+        "Additional context (optional)",
+        height=80,
+        placeholder="e.g. Comparable distances, specific adjustment amounts, lender guidelines referenced, prior revision requests...",
+        key="ag_extra"
+    )
+
+    st.divider()
+    run_addendum = st.button("✍️ Generate Addendum Language", use_container_width=True,
+                             disabled=not situation.strip())
+
+    if run_addendum and situation.strip():
+        with st.spinner("Drafting addendum language..."):
+            try:
+                try:
+                    api_key = st.secrets["ANTHROPIC_API_KEY"]
+                except Exception:
+                    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+
+                client = anthropic.Anthropic(api_key=api_key)
+
+                tone_map = {
+                    "Standard — professional, concise": "professional and concise",
+                    "Detailed — thorough with citations": "detailed and thorough, referencing USPAP Standards Rules where appropriate",
+                    "Rebuttal — firm, defensible": "firm and defensible, suitable for pushing back on a revision request without being combative",
+                }
+
+                prompt = f"""You are an experienced certified residential appraiser writing addendum language for a real estate appraisal report.
+
+Assignment details:
+- Property type: {prop_type}
+- Report type: {report_type}
+- Addendum category: {addendum_type}
+- Tone: {tone_map[tone]}
+
+Situation to address:
+{situation}
+
+{"Additional context: " + extra if extra.strip() else ""}
+
+Write USPAP-compliant addendum language that:
+1. Is written in first person as the appraiser
+2. Is formatted for direct paste into a TOTAL addendum field
+3. Is appropriate for UAD 3.6 reporting standards
+4. Addresses the situation clearly and defensibly
+5. Does not include any preamble, labels, or explanation — output only the addendum text itself
+
+Begin the addendum text directly with no intro."""
+
+                response = client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=1000,
+                    messages=[{"role": "user", "content": prompt}]
+                )
+
+                result = response.content[0].text.strip()
+                st.session_state["ag_result"] = result
+
+            except Exception as e:
+                st.error(f"Generation failed: {e}")
+                st.session_state["ag_result"] = None
+
+    if st.session_state.get("ag_result"):
+        st.divider()
+        st.markdown("### ✍️ Generated Addendum Language")
+        st.caption("Review carefully before use. Adjust any bracketed placeholders or specifics to match your assignment.")
+        st.text_area("Addendum text — select all and copy",
+                     value=st.session_state["ag_result"],
+                     height=300,
+                     key="ag_output")
+        if st.button("🔄 Regenerate", key="ag_regen"):
+            st.session_state["ag_result"] = None
+            st.rerun()
+
+# ══════════════════════════════════════════════════════════════════════════════
+# STIP / REVISION DECODER
+# ══════════════════════════════════════════════════════════════════════════════
+elif selection == "📬 Stip / Revision Decoder":
+    st.markdown("Paste in a stip or revision request and get a plain-English explanation of what they're actually asking for — plus a draft response ready to paste into TOTAL or email back to the AMC.")
+    st.caption("Works for UAD 3.6 compliance stips, lender underwriter requests, and AMC revision notices.")
+
+    if not ANTHROPIC_AVAILABLE:
+        st.error("The `anthropic` package is required. Add it to your requirements.txt and redeploy.")
+        st.stop()
+
+    st.divider()
+
+    stip_text = st.text_area(
+        "Paste the stip or revision request *",
+        height=160,
+        placeholder="Paste the exact language from the AMC or lender here...",
+        key="sd_stip"
+    )
+
+    col_c, col_d = st.columns(2)
+    with col_c:
+        sd_prop_type = st.selectbox("Property Type", [
+            "Single Family Residential",
+            "Condominium",
+            "2-4 Family",
+            "Manufactured Home",
+            "Other",
+        ], key="sd_prop_type")
+    with col_d:
+        sd_report_type = st.selectbox("Report Type", [
+            "URAR UAD 3.6",
+            "URAR UAD 2.6 / Legacy 1004",
+            "1073 Condo",
+            "2055 Exterior Only",
+            "Desktop",
+        ], key="sd_report_type")
+
+    sd_context = st.text_area(
+        "Additional context about your report (optional)",
+        height=80,
+        placeholder="e.g. Subject is a land condo, rated C3/Q4, comparable used was 0.8 miles away...",
+        key="sd_context"
+    )
+
+    st.divider()
+    run_decode = st.button("🔍 Decode & Draft Response", use_container_width=True,
+                           disabled=not stip_text.strip())
+
+    if run_decode and stip_text.strip():
+        with st.spinner("Analyzing stip and drafting response..."):
+            try:
+                try:
+                    api_key = st.secrets["ANTHROPIC_API_KEY"]
+                except Exception:
+                    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+
+                client = anthropic.Anthropic(api_key=api_key)
+
+                prompt = f"""You are an experienced certified residential appraiser helping another appraiser respond to a stip or revision request.
+
+Assignment details:
+- Property type: {sd_prop_type}
+- Report type: {sd_report_type}
+{"- Context: " + sd_context if sd_context.strip() else ""}
+
+Stip / revision request:
+{stip_text}
+
+Provide your response in this exact format with these three clearly labeled sections:
+
+WHAT THEY'RE ASKING FOR:
+[Plain English explanation of what the reviewer actually wants — 2-4 sentences max. No jargon. Explain it like you're talking to a colleague.]
+
+UAD 3.6 CONTEXT:
+[If this stip relates to a UAD 3.6 specific requirement, explain which field or requirement is involved and why it matters. If not UAD 3.6 specific, say so briefly.]
+
+DRAFT RESPONSE:
+[USPAP-compliant addendum or email response language written in first person as the appraiser. Ready to paste directly into TOTAL or an email reply. No preamble.]"""
+
+                response = client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=1200,
+                    messages=[{"role": "user", "content": prompt}]
+                )
+
+                result = response.content[0].text.strip()
+                st.session_state["sd_result"] = result
+
+            except Exception as e:
+                st.error(f"Decoding failed: {e}")
+                st.session_state["sd_result"] = None
+
+    if st.session_state.get("sd_result"):
+        st.divider()
+        raw = st.session_state["sd_result"]
+
+        # Parse the three sections
+        def extract_section(text, label, next_label=None):
+            start_tag = f"{label}:"
+            start = text.find(start_tag)
+            if start == -1:
+                return ""
+            start += len(start_tag)
+            if next_label:
+                end = text.find(f"{next_label}:")
+                return text[start:end].strip() if end != -1 else text[start:].strip()
+            return text[start:].strip()
+
+        what    = extract_section(raw, "WHAT THEY'RE ASKING FOR", "UAD 3.6 CONTEXT")
+        context = extract_section(raw, "UAD 3.6 CONTEXT", "DRAFT RESPONSE")
+        draft   = extract_section(raw, "DRAFT RESPONSE")
+
+        if what:
+            st.markdown("### 🔍 What They're Asking For")
+            st.info(what)
+
+        if context:
+            st.markdown("### 📋 UAD 3.6 Context")
+            st.warning(context)
+
+        if draft:
+            st.markdown("### ✍️ Draft Response")
+            st.caption("Review and adjust before sending. Paste into TOTAL addendum or reply email.")
+            st.text_area("Draft — select all and copy", value=draft, height=250, key="sd_output")
+
+        if st.button("🔄 Decode Again", key="sd_regen"):
+            st.session_state["sd_result"] = None
+            st.rerun()
