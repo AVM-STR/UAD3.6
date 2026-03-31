@@ -1289,6 +1289,7 @@ elif selection == "📄 Assignment Intake":
         with col_a:
             m_client      = st.text_input("Client / AMC",            key="m_client")
             m_lender      = st.text_input("Lender",                  key="m_lender")
+            m_lender_addr = st.text_input("Lender Address",           key="m_lender_addr")
             m_borrower    = st.text_input("Borrower(s)",             key="m_borrower")
             m_address     = st.text_input("Property Address",        key="m_address")
             m_city        = st.text_input("City, State, Zip",        key="m_city")
@@ -1358,6 +1359,7 @@ Fields to extract:
 {
   "client": "",
   "lender": "",
+  "lender_address": "",
   "borrower": "",
   "property_address": "",
   "city_state_zip": "",
@@ -1375,6 +1377,7 @@ Fields to extract:
 Rules:
 - If a field is not found, use an empty string.
 - For borrower, include all borrowers listed.
+- For lender_address, include full street address, city, state, zip of the lender if present.
 - For form_type, capture exactly as written (e.g. 'URAR UAD 3.6', '1004', '1073').
 - For scope, summarize in plain English (e.g. 'Interior inspection — full URAR').
 - Do not invent or infer values not present in the document.
@@ -1409,6 +1412,7 @@ Rules:
     d = {
         "Client / AMC":              pick("client",               st.session_state.get("m_client", "")),
         "Lender":                    pick("lender",               st.session_state.get("m_lender", "")),
+        "Lender Address":            pick("lender_address",       st.session_state.get("m_lender_addr", "")),
         "Borrower(s)":               pick("borrower",             st.session_state.get("m_borrower", "")),
         "Property Address":          pick("property_address",     st.session_state.get("m_address", "")),
         "City, State, Zip":          pick("city_state_zip",       st.session_state.get("m_city", "")),
