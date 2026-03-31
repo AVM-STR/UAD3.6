@@ -37,28 +37,61 @@ with st.sidebar:
         st.image(ATECH_LOGO, width=160)
     st.title("UAD 3.6 Transition Guide")
     st.divider()
-    selection = st.selectbox(
-        "Select a Section",
+
+    st.markdown("**📋 Assignment Tools**")
+    workflow_sel = st.selectbox(
+        "workflow",
         [
             "📄 Assignment Intake",
-            "🤝 Working With Your AMC",
+            "✅ Inspection Checklist",
+            "🏠 C & Q Ratings",
+            "🌍 Site Influence Guide",
+            "❓ FAQ / Revision Responses",
+        ],
+        label_visibility="collapsed",
+        key="workflow_sel"
+    )
+
+    st.markdown("**📚 Transition Reference**")
+    reference_sel = st.selectbox(
+        "reference",
+        [
             "📊 What Changed",
             "🚀 Before Your First 3.6 Order",
             "🔍 Inspection Guide",
-            "✅ Inspection Checklist",
-            "🌍 Site Influence Guide",
             "📐 Sketch & ANSI",
-            "🏠 C & Q Ratings",
             "🗺️ Field Mapper",
-            "❓ FAQ / Revision Responses",
             "💻 Software & Tools",
             "📚 Training Resources",
+            "🤝 Working With Your AMC",
         ],
-        label_visibility="collapsed"
+        label_visibility="collapsed",
+        key="reference_sel"
     )
+
     st.divider()
     st.info("⏱️ **Nov 2, 2026** — UAD 3.6 mandatory")
     st.caption("Presented by Absolute Value Management & A-Tech Appraisal Co.")
+
+# ── Active selection — last touched dropdown wins ──────────────────────────────
+if "last_group" not in st.session_state:
+    st.session_state["last_group"] = "workflow"
+
+prev_workflow  = st.session_state.get("prev_workflow",  workflow_sel)
+prev_reference = st.session_state.get("prev_reference", reference_sel)
+
+if workflow_sel != prev_workflow:
+    st.session_state["last_group"] = "workflow"
+elif reference_sel != prev_reference:
+    st.session_state["last_group"] = "reference"
+
+st.session_state["prev_workflow"]  = workflow_sel
+st.session_state["prev_reference"] = reference_sel
+
+if st.session_state["last_group"] == "workflow":
+    selection = workflow_sel
+else:
+    selection = reference_sel
 
 # ── Main Header ────────────────────────────────────────────────────────────────
 st.title(selection)
