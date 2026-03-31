@@ -26,6 +26,7 @@ with st.sidebar:
     selection = st.selectbox(
         "Select a Section",
         [
+            "📄 Assignment Intake",
             "🤝 Working With Your AMC",
             "📊 What Changed",
             "🚀 Before Your First 3.6 Order",
@@ -528,7 +529,147 @@ elif selection == "✅ Inspection Checklist":
 
     st.divider()
     st.markdown("### 🖨️ Printable Version")
-    st.caption("Opens as an HTML file — open in any browser and print, or print to PDF. Formatted for 8.5 x 11 with checkboxes.")
+    st.caption("Download as PDF (print-ready) or HTML (open in browser and print). Both formatted for 8.5 x 11 with pen-friendly checkboxes.")
+
+    def make_checklist_pdf():
+        import io
+        from reportlab.lib.pagesizes import letter
+        from reportlab.lib.units import inch
+        from reportlab.lib import colors
+        from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer,
+                                        HRFlowable, Table, TableStyle)
+        from reportlab.lib.styles import ParagraphStyle
+        from reportlab.lib.enums import TA_CENTER
+        from reportlab.platypus import Flowable
+
+        class Checkbox(Flowable):
+            def __init__(self, size=9):
+                Flowable.__init__(self)
+                self.size = size
+                self.width = size
+                self.height = size
+            def draw(self):
+                self.canv.setLineWidth(1.2)
+                self.canv.rect(0, 0, self.size, self.size)
+
+        buf = io.BytesIO()
+        doc = SimpleDocTemplate(buf, pagesize=letter,
+            leftMargin=0.75*inch, rightMargin=0.75*inch,
+            topMargin=0.75*inch, bottomMargin=0.75*inch)
+
+        title_style   = ParagraphStyle("title", fontSize=15, fontName="Helvetica-Bold", spaceAfter=2)
+        sub_style     = ParagraphStyle("sub",   fontSize=8,  fontName="Helvetica",
+                                       textColor=colors.HexColor("#555555"), spaceAfter=10)
+        section_style = ParagraphStyle("sec",   fontSize=10, fontName="Helvetica-Bold",
+                                       spaceBefore=10, spaceAfter=4)
+        item_style    = ParagraphStyle("item",  fontSize=9,  fontName="Helvetica", leading=13, leftIndent=4)
+        footer_style  = ParagraphStyle("foot",  fontSize=7.5, fontName="Helvetica",
+                                       textColor=colors.HexColor("#888888"), alignment=TA_CENTER)
+
+        checklist_sections = [
+            ("Before You Arrive", [
+                "Pull property from public records — confirm address, legal description, zoning, lot size",
+                "Review MLS listing for listed features, updates, and seller disclosures",
+                "Check FCC Broadband Map (broadbandmap.fcc.gov) for broadband availability",
+                "Confirm assignment type — interior, exterior, or desktop — determines which sections activate",
+                "Review prior appraisal if available — note any prior condition or quality ratings",
+            ]),
+            ("Equipment Checklist", [
+                "Laser distance measurer (required for ceiling heights)",
+                "Mobile device with UAD 3.6 software loaded and assignment open",
+                "Camera — front, rear, street scene, all rooms, kitchen close-up, bath close-up",
+                "Measuring wheel or laser for exterior measurements",
+            ]),
+            ("Site Observations", [
+                "Access road type — public paved / private paved / gravel / dirt / other",
+                "Site influence — for each influence: onsite / bordering / distant AND positive / neutral / negative",
+                "Flood zone — confirm via FEMA map, note zone designation",
+                "Zoning — verify current zoning, note any nonconforming use",
+                "Utilities — public or private for each: electric, gas, water, sewer",
+                "Outbuildings — if present: type, size, utilities extended to each",
+                "Disaster mitigation features — storm shutters, hurricane straps, flood vents, seismic retrofit",
+                "ADU — if present: separate entrance? kitchen? bed/bath count? legal permit status?",
+            ]),
+            ("Exterior Observations", [
+                "Exterior quality rating (Q1-Q6) — assess independently of interior",
+                "Exterior condition rating (C1-C6) — assess independently of interior",
+                "Siding material and condition",
+                "Roof material, design, and estimated replacement date (ask owner/agent if not observable)",
+                "Foundation type and any visible deficiencies",
+                "Windows and doors — material, condition, any issues",
+                "Trim and architectural detail — quality of finish",
+                "Driveway, walkways, patios — material and condition",
+                "Any exterior deficiencies — note location, description, impact, estimated repair cost",
+            ]),
+            ("Interior Observations — Per Floor", [
+                "Ceiling height — measure each level with laser (required every inspection)",
+                "Identify any NSFA areas — sloped ceilings under 7 ft, bonus rooms, etc. Measure separately",
+                "Interior quality rating (Q1-Q6) — assess independently of exterior",
+                "Interior condition rating (C1-C6) — assess independently of exterior",
+                "Flooring materials — type and condition by area",
+                "Wall and ceiling materials — type and condition",
+                "Trim and millwork — quality and condition",
+                "Built-ins, cabinetry quality throughout",
+                "HVAC — type, age if observable, condition",
+                "Electrical — panel type, any visible issues",
+                "Plumbing — any visible issues, water heater age",
+                "Any interior deficiencies — note location, description, impact, estimated repair cost",
+            ]),
+            ("Kitchen Details — Complete for EACH Kitchen", [
+                "Update status — updated / not updated / remodeled",
+                "Approximate year of update (if updated or remodeled)",
+                "Kitchen condition rating (C1-C6)",
+                "Brief description — countertop material, cabinet quality, appliances, floor",
+            ]),
+            ("Bathroom Details — Complete for EACH Bathroom (including half baths)", [
+                "Update status — updated / not updated / remodeled",
+                "Approximate year of update (if updated or remodeled)",
+                "Bathroom condition rating (C1-C6)",
+                "Brief description — fixtures, tile, vanity, condition",
+            ]),
+            ("Before You Leave", [
+                "Confirm all required photos taken — front, rear, street scene, all rooms, kitchen, all baths",
+                "Confirm ceiling heights recorded for all levels",
+                "Confirm NSFA areas identified and measured separately if present",
+                "Confirm GLA sketch reflects per-floor breakdown",
+                "Confirm broadband availability recorded",
+                "Confirm access road type recorded",
+                "Confirm roof replacement date collected (from owner/agent/permits)",
+                "Confirm outbuilding utilities documented if applicable",
+                "Confirm ADU section data collected if applicable",
+            ]),
+        ]
+
+        story = []
+        story.append(Paragraph("UAD 3.6 Inspection Checklist", title_style))
+        story.append(Paragraph(
+            "Absolute Value Management &amp; A-Tech Appraisal Co.  |  Mandatory: November 2, 2026",
+            sub_style))
+        story.append(HRFlowable(width="100%", thickness=1,
+                                color=colors.HexColor("#cccccc"), spaceAfter=6))
+        for sec_title, items in checklist_sections:
+            story.append(Paragraph(sec_title, section_style))
+            for item in items:
+                row = Table([[Checkbox(9), Paragraph(item, item_style)]], colWidths=[18, None])
+                row.setStyle(TableStyle([
+                    ("VALIGN",        (0,0), (-1,-1), "TOP"),
+                    ("LEFTPADDING",   (0,0), (-1,-1), 0),
+                    ("RIGHTPADDING",  (0,0), (-1,-1), 0),
+                    ("TOPPADDING",    (0,0), (-1,-1), 2),
+                    ("BOTTOMPADDING", (0,0), (-1,-1), 2),
+                ]))
+                story.append(row)
+            story.append(HRFlowable(width="100%", thickness=0.5,
+                                    color=colors.HexColor("#e0e0e0"),
+                                    spaceBefore=6, spaceAfter=2))
+        story.append(Spacer(1, 10))
+        story.append(Paragraph(
+            "This checklist covers UAD 3.6 specific requirements. "
+            "Standard inspection practices and USPAP obligations remain unchanged.",
+            footer_style))
+        doc.build(story)
+        buf.seek(0)
+        return buf.read()
 
     printable_html = """<!DOCTYPE html>
 <html>
@@ -544,29 +685,23 @@ elif selection == "✅ Inspection Checklist":
   .box { width: 13px; height: 13px; border: 1.5px solid #333; display: inline-block; margin-right: 8px; margin-top: 2px; flex-shrink: 0; }
   .label { line-height: 1.4; }
   .footer { font-size: 8pt; color: #888; margin-top: 24px; border-top: 1px solid #ddd; padding-top: 6px; }
-  @media print {
-    body { margin: 0.6in; }
-    h2 { page-break-after: avoid; }
-  }
+  @media print { body { margin: 0.6in; } h2 { page-break-after: avoid; } }
 </style>
 </head>
 <body>
 <h1>UAD 3.6 Inspection Checklist</h1>
 <div class="subtitle">Presented by Absolute Value Management &amp; A-Tech Appraisal Co. &nbsp;|&nbsp; Mandatory: November 2, 2026</div>
-
 <h2>Before You Arrive</h2>
 <div class="item"><span class="box"></span><span class="label">Pull property from public records — confirm address, legal description, zoning, lot size</span></div>
 <div class="item"><span class="box"></span><span class="label">Review MLS listing for listed features, updates, and seller disclosures</span></div>
 <div class="item"><span class="box"></span><span class="label">Check FCC Broadband Map (broadbandmap.fcc.gov) for broadband availability</span></div>
 <div class="item"><span class="box"></span><span class="label">Confirm assignment type — interior, exterior, or desktop — determines which sections activate</span></div>
 <div class="item"><span class="box"></span><span class="label">Review prior appraisal if available — note any prior condition or quality ratings</span></div>
-
 <h2>Equipment Checklist</h2>
 <div class="item"><span class="box"></span><span class="label">Laser distance measurer (required for ceiling heights)</span></div>
 <div class="item"><span class="box"></span><span class="label">Mobile device with UAD 3.6 software loaded and assignment open</span></div>
 <div class="item"><span class="box"></span><span class="label">Camera — front, rear, street scene, all rooms, kitchen close-up, bath close-up</span></div>
 <div class="item"><span class="box"></span><span class="label">Measuring wheel or laser for exterior measurements</span></div>
-
 <h2>Site Observations</h2>
 <div class="item"><span class="box"></span><span class="label">Access road type — public paved / private paved / gravel / dirt / other</span></div>
 <div class="item"><span class="box"></span><span class="label">Site influence — for each influence: onsite / bordering / distant AND positive / neutral / negative</span></div>
@@ -576,10 +711,9 @@ elif selection == "✅ Inspection Checklist":
 <div class="item"><span class="box"></span><span class="label">Outbuildings — if present: type, size, utilities extended to each</span></div>
 <div class="item"><span class="box"></span><span class="label">Disaster mitigation features — storm shutters, hurricane straps, flood vents, seismic retrofit</span></div>
 <div class="item"><span class="box"></span><span class="label">ADU — if present: separate entrance? kitchen? bed/bath count? legal permit status?</span></div>
-
 <h2>Exterior Observations</h2>
-<div class="item"><span class="box"></span><span class="label">Exterior quality rating (Q1–Q6) — assess independently of interior</span></div>
-<div class="item"><span class="box"></span><span class="label">Exterior condition rating (C1–C6) — assess independently of interior</span></div>
+<div class="item"><span class="box"></span><span class="label">Exterior quality rating (Q1-Q6) — assess independently of interior</span></div>
+<div class="item"><span class="box"></span><span class="label">Exterior condition rating (C1-C6) — assess independently of interior</span></div>
 <div class="item"><span class="box"></span><span class="label">Siding material and condition</span></div>
 <div class="item"><span class="box"></span><span class="label">Roof material, design, and estimated replacement date (ask owner/agent if not observable)</span></div>
 <div class="item"><span class="box"></span><span class="label">Foundation type and any visible deficiencies</span></div>
@@ -587,12 +721,11 @@ elif selection == "✅ Inspection Checklist":
 <div class="item"><span class="box"></span><span class="label">Trim and architectural detail — quality of finish</span></div>
 <div class="item"><span class="box"></span><span class="label">Driveway, walkways, patios — material and condition</span></div>
 <div class="item"><span class="box"></span><span class="label">Any exterior deficiencies — note location, description, impact, estimated repair cost</span></div>
-
 <h2>Interior Observations — Per Floor</h2>
 <div class="item"><span class="box"></span><span class="label">Ceiling height — measure each level with laser (required every inspection)</span></div>
 <div class="item"><span class="box"></span><span class="label">Identify any NSFA areas — sloped ceilings under 7 ft, bonus rooms, etc. Measure separately</span></div>
-<div class="item"><span class="box"></span><span class="label">Interior quality rating (Q1–Q6) — assess independently of exterior</span></div>
-<div class="item"><span class="box"></span><span class="label">Interior condition rating (C1–C6) — assess independently of exterior</span></div>
+<div class="item"><span class="box"></span><span class="label">Interior quality rating (Q1-Q6) — assess independently of exterior</span></div>
+<div class="item"><span class="box"></span><span class="label">Interior condition rating (C1-C6) — assess independently of exterior</span></div>
 <div class="item"><span class="box"></span><span class="label">Flooring materials — type and condition by area</span></div>
 <div class="item"><span class="box"></span><span class="label">Wall and ceiling materials — type and condition</span></div>
 <div class="item"><span class="box"></span><span class="label">Trim and millwork — quality and condition</span></div>
@@ -601,19 +734,16 @@ elif selection == "✅ Inspection Checklist":
 <div class="item"><span class="box"></span><span class="label">Electrical — panel type, any visible issues</span></div>
 <div class="item"><span class="box"></span><span class="label">Plumbing — any visible issues, water heater age</span></div>
 <div class="item"><span class="box"></span><span class="label">Any interior deficiencies — note location, description, impact, estimated repair cost</span></div>
-
 <h2>Kitchen Details — Complete for EACH Kitchen</h2>
 <div class="item"><span class="box"></span><span class="label">Update status — updated / not updated / remodeled</span></div>
 <div class="item"><span class="box"></span><span class="label">Approximate year of update (if updated or remodeled)</span></div>
-<div class="item"><span class="box"></span><span class="label">Kitchen condition rating (C1–C6)</span></div>
+<div class="item"><span class="box"></span><span class="label">Kitchen condition rating (C1-C6)</span></div>
 <div class="item"><span class="box"></span><span class="label">Brief description — countertop material, cabinet quality, appliances, floor</span></div>
-
 <h2>Bathroom Details — Complete for EACH Bathroom (including half baths)</h2>
 <div class="item"><span class="box"></span><span class="label">Update status — updated / not updated / remodeled</span></div>
 <div class="item"><span class="box"></span><span class="label">Approximate year of update (if updated or remodeled)</span></div>
-<div class="item"><span class="box"></span><span class="label">Bathroom condition rating (C1–C6)</span></div>
+<div class="item"><span class="box"></span><span class="label">Bathroom condition rating (C1-C6)</span></div>
 <div class="item"><span class="box"></span><span class="label">Brief description — fixtures, tile, vanity, condition</span></div>
-
 <h2>Before You Leave</h2>
 <div class="item"><span class="box"></span><span class="label">Confirm all required photos taken — front, rear, street scene, all rooms, kitchen, all baths</span></div>
 <div class="item"><span class="box"></span><span class="label">Confirm ceiling heights recorded for all levels</span></div>
@@ -624,18 +754,27 @@ elif selection == "✅ Inspection Checklist":
 <div class="item"><span class="box"></span><span class="label">Confirm roof replacement date collected (from owner/agent/permits)</span></div>
 <div class="item"><span class="box"></span><span class="label">Confirm outbuilding utilities documented if applicable</span></div>
 <div class="item"><span class="box"></span><span class="label">Confirm ADU section data collected if applicable</span></div>
-
-<div class="footer">UAD 3.6 Inspection Checklist &nbsp;|&nbsp; Absolute Value Management &amp; A-Tech Appraisal Co. &nbsp;|&nbsp; Mandatory November 2, 2026 &nbsp;|&nbsp; This checklist covers UAD 3.6 specific requirements. Standard inspection practices and USPAP obligations remain unchanged.</div>
+<div class="footer">UAD 3.6 Inspection Checklist &nbsp;|&nbsp; Absolute Value Management &amp; A-Tech Appraisal Co. &nbsp;|&nbsp; Mandatory November 2, 2026</div>
 </body>
 </html>"""
 
-    st.download_button(
-        label="🖨️ Download Printable Checklist (HTML)",
-        data=printable_html,
-        file_name="UAD_36_Inspection_Checklist.html",
-        mime="text/html",
-        use_container_width=True
-    )
+    dl_col1, dl_col2 = st.columns(2)
+    with dl_col1:
+        st.download_button(
+            label="📄 Download PDF Checklist",
+            data=make_checklist_pdf(),
+            file_name="UAD_36_Inspection_Checklist.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+    with dl_col2:
+        st.download_button(
+            label="🌐 Download HTML Checklist",
+            data=printable_html,
+            file_name="UAD_36_Inspection_Checklist.html",
+            mime="text/html",
+            use_container_width=True
+        )
 
 # ══════════════════════════════════════════════════════════════════════════════
 # TAB 7 — FAQ / REVISION RESPONSES
@@ -1073,3 +1212,203 @@ elif selection == "🤝 Working With Your AMC":
             st.image(ATECH_LOGO, width=140)
         st.markdown("**A-Tech Appraisal Co.**")
         st.caption("Co-presenter of this resource. Questions about appraisal workflow, software, or field practice.")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ASSIGNMENT INTAKE
+# ══════════════════════════════════════════════════════════════════════════════
+elif selection == "📄 Assignment Intake":
+    import anthropic, base64, json
+
+    st.markdown("Upload your engagement letter and the key assignment details will be extracted and formatted into a clean, copy-pasteable summary card.")
+    st.caption("Supported formats: PDF, PNG, JPG. Your document is not stored — it is processed once and discarded.")
+
+    st.divider()
+
+    uploaded_file = st.file_uploader(
+        "Upload Engagement Letter",
+        type=["pdf", "png", "jpg", "jpeg"],
+        help="Upload the engagement letter or order confirmation from your AMC or client."
+    )
+
+    st.markdown("#### Or enter details manually")
+    st.caption("If you don't have a document to upload, fill in what you have below.")
+
+    with st.expander("✏️ Manual Entry", expanded=not bool(uploaded_file)):
+        col_a, col_b = st.columns(2)
+        with col_a:
+            m_client      = st.text_input("Client / AMC",            key="m_client")
+            m_lender      = st.text_input("Lender",                  key="m_lender")
+            m_borrower    = st.text_input("Borrower(s)",             key="m_borrower")
+            m_address     = st.text_input("Property Address",        key="m_address")
+            m_city        = st.text_input("City, State, Zip",        key="m_city")
+        with col_b:
+            m_effective   = st.text_input("Effective Date",          key="m_effective")
+            m_due         = st.text_input("Due Date",                key="m_due")
+            m_form        = st.text_input("Form Type",               key="m_form",
+                                          placeholder="e.g. URAR UAD 3.6, 1004, 1073")
+            m_scope       = st.text_input("Scope / Assignment Type", key="m_scope",
+                                          placeholder="e.g. Interior inspection")
+            m_intended    = st.text_input("Intended Use",            key="m_intended",
+                                          placeholder="e.g. Mortgage financing")
+            m_loan        = st.text_input("Loan Type",               key="m_loan",
+                                          placeholder="e.g. Conventional, FHA, VA")
+            m_fee         = st.text_input("Fee",                     key="m_fee")
+            m_file        = st.text_input("File / Order Number",     key="m_file")
+        m_notes = st.text_area("Additional Notes / Special Instructions", key="m_notes", height=80)
+
+    st.divider()
+
+    run_extract = st.button("⚡ Extract Assignment Details", use_container_width=True,
+                            disabled=not uploaded_file,
+                            help="Upload a document above to enable extraction.")
+
+    if run_extract and uploaded_file:
+        with st.spinner("Reading engagement letter..."):
+            try:
+                file_bytes  = uploaded_file.read()
+                b64_data    = base64.standard_b64encode(file_bytes).decode("utf-8")
+                suffix      = uploaded_file.name.lower().split(".")[-1]
+                if suffix == "pdf":
+                    media_type = "application/pdf"
+                    doc_block  = {
+                        "type": "document",
+                        "source": {"type": "base64", "media_type": media_type, "data": b64_data}
+                    }
+                else:
+                    mt_map     = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg"}
+                    media_type = mt_map.get(suffix, "image/jpeg")
+                    doc_block  = {
+                        "type": "image",
+                        "source": {"type": "base64", "media_type": media_type, "data": b64_data}
+                    }
+
+                try:
+                    api_key = st.secrets["ANTHROPIC_API_KEY"]
+                except Exception:
+                    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+
+                client = anthropic.Anthropic(api_key=api_key)
+
+                response = client.messages.create(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=1000,
+                    messages=[{
+                        "role": "user",
+                        "content": [
+                            doc_block,
+                            {
+                                "type": "text",
+                                "text": """Extract the following fields from this appraisal engagement letter or order confirmation. Return ONLY a valid JSON object with no extra text, preamble, or markdown.
+
+Fields to extract:
+{
+  "client": "",
+  "lender": "",
+  "borrower": "",
+  "property_address": "",
+  "city_state_zip": "",
+  "effective_date": "",
+  "due_date": "",
+  "form_type": "",
+  "scope": "",
+  "intended_use": "",
+  "loan_type": "",
+  "fee": "",
+  "file_number": "",
+  "special_instructions": ""
+}
+
+Rules:
+- If a field is not found, use an empty string.
+- For borrower, include all borrowers listed.
+- For form_type, capture exactly as written (e.g. 'URAR UAD 3.6', '1004', '1073').
+- For scope, summarize in plain English (e.g. 'Interior inspection — full URAR').
+- Do not invent or infer values not present in the document.
+- Return only the JSON object."""
+                            }
+                        ]
+                    }]
+                )
+
+                raw = response.content[0].text.strip()
+                raw = raw.replace("```json", "").replace("```", "").strip()
+                extracted = json.loads(raw)
+                st.session_state["intake_extracted"] = extracted
+                st.success("✅ Extraction complete.")
+
+            except json.JSONDecodeError:
+                st.error("Could not parse the extracted data. Try the manual entry fields below.")
+                st.session_state["intake_extracted"] = None
+            except Exception as e:
+                st.error(f"Extraction failed: {e}")
+                st.session_state["intake_extracted"] = None
+
+    # ── Build display data from extracted OR manual entry ──────────────────────
+    extracted = st.session_state.get("intake_extracted")
+
+    def pick(extracted_val, manual_val):
+        """Use extracted if available and non-empty, otherwise fall back to manual."""
+        if extracted and extracted.get(extracted_val):
+            return extracted[extracted_val]
+        return manual_val or ""
+
+    d = {
+        "Client / AMC":              pick("client",               st.session_state.get("m_client", "")),
+        "Lender":                    pick("lender",               st.session_state.get("m_lender", "")),
+        "Borrower(s)":               pick("borrower",             st.session_state.get("m_borrower", "")),
+        "Property Address":          pick("property_address",     st.session_state.get("m_address", "")),
+        "City, State, Zip":          pick("city_state_zip",       st.session_state.get("m_city", "")),
+        "Effective Date":            pick("effective_date",       st.session_state.get("m_effective", "")),
+        "Due Date":                  pick("due_date",             st.session_state.get("m_due", "")),
+        "Form Type":                 pick("form_type",            st.session_state.get("m_form", "")),
+        "Scope / Assignment Type":   pick("scope",                st.session_state.get("m_scope", "")),
+        "Intended Use":              pick("intended_use",         st.session_state.get("m_intended", "")),
+        "Loan Type":                 pick("loan_type",            st.session_state.get("m_loan", "")),
+        "Fee":                       pick("fee",                  st.session_state.get("m_fee", "")),
+        "File / Order Number":       pick("file_number",          st.session_state.get("m_file", "")),
+        "Special Instructions":      pick("special_instructions", st.session_state.get("m_notes", "")),
+    }
+
+    has_any = any(v.strip() for v in d.values())
+
+    if has_any:
+        st.divider()
+        st.markdown("### 📋 Assignment Summary Card")
+        st.caption("Review, edit if needed, then copy to clipboard or paste directly into TOTAL or your workfile.")
+
+        col_card, col_edit = st.columns([3, 1])
+        with col_edit:
+            edit_mode = st.toggle("✏️ Edit fields", key="edit_mode")
+
+        if edit_mode:
+            edited = {}
+            for label, val in d.items():
+                edited[label] = st.text_input(label, value=val, key=f"edit_{label}")
+            d = edited
+
+        # Display card
+        st.markdown("---")
+        col1, col2 = st.columns(2)
+        items = list(d.items())
+        mid   = len(items) // 2
+        for label, val in items[:mid]:
+            with col1:
+                st.markdown(f"**{label}**")
+                st.write(val if val else "—")
+        for label, val in items[mid:]:
+            with col2:
+                st.markdown(f"**{label}**")
+                st.write(val if val else "—")
+
+        st.markdown("---")
+
+        # Plain text copy block
+        lines = [f"UAD 3.6 ASSIGNMENT SUMMARY", "=" * 40]
+        for label, val in d.items():
+            if val.strip():
+                lines.append(f"{label}: {val}")
+        lines.append("=" * 40)
+        plain_text = "\n".join(lines)
+
+        st.text_area("📋 Copy-pasteable text", value=plain_text, height=300, key="summary_text")
+        st.caption("Select all → copy → paste into TOTAL notes, workfile, or email.")
