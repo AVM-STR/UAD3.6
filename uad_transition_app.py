@@ -75,25 +75,22 @@ with st.sidebar:
     st.info("⏱️ **Nov 2, 2026** — UAD 3.6 mandatory")
     st.caption("Presented by Absolute Value Management & A-Tech Appraisal Co.")
 
-# ── Active selection — last touched dropdown wins ──────────────────────────────
-if "last_group" not in st.session_state:
-    st.session_state["last_group"] = "workflow"
+# ── Active selection — sticky across reruns ───────────────────────────────────
+if "selection" not in st.session_state:
+    st.session_state["selection"] = "📄 Assignment Intake"
+if "prev_workflow" not in st.session_state:
+    st.session_state["prev_workflow"] = workflow_sel
+if "prev_reference" not in st.session_state:
+    st.session_state["prev_reference"] = reference_sel
 
-prev_workflow  = st.session_state.get("prev_workflow",  workflow_sel)
-prev_reference = st.session_state.get("prev_reference", reference_sel)
+if workflow_sel != st.session_state["prev_workflow"]:
+    st.session_state["selection"]     = workflow_sel
+    st.session_state["prev_workflow"] = workflow_sel
+elif reference_sel != st.session_state["prev_reference"]:
+    st.session_state["selection"]      = reference_sel
+    st.session_state["prev_reference"] = reference_sel
 
-if workflow_sel != prev_workflow:
-    st.session_state["last_group"] = "workflow"
-elif reference_sel != prev_reference:
-    st.session_state["last_group"] = "reference"
-
-st.session_state["prev_workflow"]  = workflow_sel
-st.session_state["prev_reference"] = reference_sel
-
-if st.session_state["last_group"] == "workflow":
-    selection = workflow_sel
-else:
-    selection = reference_sel
+selection = st.session_state["selection"]
 
 # ── Main Header ────────────────────────────────────────────────────────────────
 st.title(selection)
