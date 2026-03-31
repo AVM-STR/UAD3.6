@@ -4,7 +4,15 @@ Presented by Absolute Value Management & A-Tech Appraisal Co.
 """
 
 import os
+import base64
+import json
 import streamlit as st
+
+try:
+    import anthropic
+    ANTHROPIC_AVAILABLE = True
+except ImportError:
+    ANTHROPIC_AVAILABLE = False
 
 ATECH_LOGO = os.path.join(os.path.dirname(__file__), "atech_logo.png")
 AVM_LOGO   = os.path.join(os.path.dirname(__file__), "avm_logo.png")
@@ -1217,7 +1225,6 @@ elif selection == "🤝 Working With Your AMC":
 # ASSIGNMENT INTAKE
 # ══════════════════════════════════════════════════════════════════════════════
 elif selection == "📄 Assignment Intake":
-    import anthropic, base64, json
 
     st.markdown("Upload your engagement letter and the key assignment details will be extracted and formatted into a clean, copy-pasteable summary card.")
     st.caption("Supported formats: PDF, PNG, JPG. Your document is not stored — it is processed once and discarded.")
@@ -1258,11 +1265,14 @@ elif selection == "📄 Assignment Intake":
 
     st.divider()
 
+    if not ANTHROPIC_AVAILABLE:
+        st.warning("⚠️ The `anthropic` package is not installed. Add `anthropic` to your `requirements.txt` to enable document extraction. Manual entry below is fully functional.")
+
     run_extract = st.button("⚡ Extract Assignment Details", use_container_width=True,
-                            disabled=not uploaded_file,
+                            disabled=(not uploaded_file or not ANTHROPIC_AVAILABLE),
                             help="Upload a document above to enable extraction.")
 
-    if run_extract and uploaded_file:
+    if run_extract and uploaded_file and ANTHROPIC_AVAILABLE:
         with st.spinner("Reading engagement letter..."):
             try:
                 file_bytes  = uploaded_file.read()
