@@ -14,6 +14,12 @@ try:
 except ImportError:
     ANTHROPIC_AVAILABLE = False
 
+try:
+    from reportlab.lib.pagesizes import letter
+    REPORTLAB_AVAILABLE = True
+except ImportError:
+    REPORTLAB_AVAILABLE = False
+
 ATECH_LOGO = os.path.join(os.path.dirname(__file__), "atech_logo.png")
 AVM_LOGO   = os.path.join(os.path.dirname(__file__), "avm_logo.png")
 
@@ -768,13 +774,16 @@ elif selection == "✅ Inspection Checklist":
 
     dl_col1, dl_col2 = st.columns(2)
     with dl_col1:
-        st.download_button(
-            label="📄 Download PDF Checklist",
-            data=make_checklist_pdf(),
-            file_name="UAD_36_Inspection_Checklist.pdf",
-            mime="application/pdf",
-            use_container_width=True
-        )
+        if REPORTLAB_AVAILABLE:
+            st.download_button(
+                label="📄 Download PDF Checklist",
+                data=make_checklist_pdf(),
+                file_name="UAD_36_Inspection_Checklist.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+        else:
+            st.warning("Add `reportlab` to requirements.txt to enable PDF download.")
     with dl_col2:
         st.download_button(
             label="🌐 Download HTML Checklist",
